@@ -9,15 +9,17 @@
 <div class="repairContent row" uib-collapse="repairItem.isCollapsed">
     <div class="repairDetailContent container-fluid">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-2">
                 <span ng-show="repairItem.status !== 'Naprawa zakończona - odebrana'">Możliwe działania</span>
+            </div>
+            <div class="col-xs-10">
                 <button ng-click="vm.editRepair(repairItem, 'edition')" ng-show="repairItem.status !== 'Naprawa zakończona - odebrana'">Edytuj naprawę</button>
                 <button ng-click="vm.finishRepair(repairItem)" ng-show="repairItem.status === 'W trakcie naprawy'">Naprawa części</button>
                 <button ng-click="vm.pickupRepair(repairItem)" ng-show="repairItem.status === 'Naprawa zakończona'">Odebranie części</button>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-2">Numer ID</div>
+            <div class="col-xs-2">Numer Id zlecenia</div>
             <div class="col-xs-10">
                 <span>{{repairItem.id}}</span>
             </div>
@@ -43,25 +45,25 @@
         <div class="row">
             <div class="col-xs-2">Opis uszkodzenia</div>
             <div class="col-xs-10">
-                <textarea ng-model="repiarItem.failuredesc" readonly></textarea>
+                <b><textarea ng-model="repairItem.failuredesc" readonly></textarea></b>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-2">Opis naprawy</div>
             <div class="col-xs-10">
-                <textarea ng-model="repiarItem.repairdesc" readonly></textarea>
+                <b><textarea ng-model="repairItem.repairdesc" readonly></textarea></b>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-2">Data uszkodzenia</div>
             <div class="col-xs-10">
-                <span>{{repairItem.breakdownDate}}</span>
+                <span>{{repairItem.breakdownDate | date: 'yyyy-MM-dd'}}</span>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-2">Data naprawy (szacowana)</div>
             <div class="col-xs-10">
-                <span>{{repairItem.estimatedRepairDate}}</span>
+                <span>{{repairItem.estimatedRepairDate | date: 'yyyy-MM-dd'}}</span>
             </div>
         </div>
         <div class="row">
@@ -70,10 +72,10 @@
                 <span>{{repairItem.repairDate | date: 'yyyy-MM-dd'}}</span>
             </div>
         </div>
-        <div class="row" > <!--ng-if="{{repairItem.pickupDate}} !== null"-->
+        <div class="row" > <!--ng-if="{{repairItem.pickupDate | date: 'yyyy-MM-dd'}} !== null"-->
             <div class="col-xs-2">Data odebrania</div>
             <div class="col-xs-10">
-                <span>{{repairItem.pickupDate}}</span>
+                <span>{{repairItem.pickupDate | date: 'yyyy-MM-dd'}}</span>
             </div>
         </div>
         <div class="row">

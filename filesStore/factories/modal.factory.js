@@ -24,32 +24,36 @@
                 var templateURL = 'components/yesNo.modal.html';
                 var controller = 'yesNoModalController';
                 var displayText = simpleModalWithText(textToDisplay);
-                callModal(templateURL, controller, displayText, modalSubmitted, modalClosed);
+                var size = 'md';
+                callModal(templateURL, controller, size, displayText, modalSubmitted, modalClosed);
             }
         }
         function callInfoModal(textToDisplay, modalSubmitted, modalClosed) {
             var templateURL = 'components/info.modal.html';
             var controller = 'infoModalController';
             var displayText = simpleModalWithText(textToDisplay);
-            callModal(templateURL, controller, displayText, modalSubmitted, modalClosed);
+            var size = 'md';
+            callModal(templateURL, controller, size, displayText, modalSubmitted, modalClosed);
         }
         function callRepairModal(dataItems, modalSubmitted, modalClosed) {
             var templateURL = 'components/repair.modal.html';
             var controller = 'repairModalController';
-            callModal(templateURL, controller, dataItems, modalSubmitted, modalClosed);
+            var size = 'lg';
+            callModal(templateURL, controller, size, dataItems, modalSubmitted, modalClosed);
         }
         function callAddSimpleData(dataItems, modalSubmitted, modalClosed) {
             var templateURL = 'components/addSimpleData.modal.html';
             var controller = 'addSimpleDataController';
-            callModal(templateURL, controller, dataItems, modalSubmitted, modalClosed);
+            var size = 'md';
+            callModal(templateURL, controller, size, dataItems, modalSubmitted, modalClosed);
         }
 
-        function callModal(templateUrl, controller, dataItems, modalSubmitted, modalClosed) {
+        function callModal(templateUrl, controller, size, dataItems, modalSubmitted, modalClosed) {
             modal = $uibModal.open({
                 templateUrl: templateUrl,
                 controller: controller,
                 controllerAs: 'vm',
-                size: 'md',
+                size: size,
                 backdrop: 'static',
                 resolve: {
                     dataItems: dataItems

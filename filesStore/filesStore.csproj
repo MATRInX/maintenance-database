@@ -81,6 +81,7 @@
     <Content Include="factories\toolingsHelper.factory.js" />
     <Content Include="factories\documentsHelper.factory.js" />
     <Content Include="factories\modal.factory.js" />
+    <Content Include="filters\search.filter.js" />
     <Content Include="filters\multiwords.filter.js" />
     <Content Include="filters\pagination.filter.js" />
     <Content Include="layout\files\addDocument.controller.js" />

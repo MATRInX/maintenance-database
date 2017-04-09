@@ -8,13 +8,24 @@
     function repairModalController($uibModalInstance, dataItems, $log, $timeout) {
         var vm = this;
         vm.type = dataItems.type;
+        vm.modalType = '';
         vm.repairData = dataItems.data;
         vm.repairDatePopup = false;
 
         vm.submitModal = submitModal;
         vm.closeModal = closeModal;
 
+        initialize();
+
         ////////////////////
+        function initialize() {
+            if (vm.type === 'add') {
+                vm.modalType = 'Dodanie naprawy';
+            }
+            else if (vm.type === 'edition') {
+                vm.modalType = 'Edycja naprawy';
+            }
+        }
         function submitModal() {
             if (vm.type === 'edition') {
                 var tempDate = new Date();

@@ -1,6 +1,6 @@
 ﻿<div class="toolingModal">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Dodanie/Edycja naprawy narzędzia - {{vm.type}}</h3>
+        <h3 class="modal-title" id="modal-title">Dodanie/Edycja naprawy narzędzia - {{vm.modalType}}</h3>
     </div>
 
     <div class="modal-body" id="modal-body">
@@ -8,39 +8,48 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-3">
-                        Id zlecenia:
+                        <b>Numer Id zlecenia:</b>
                     </div>
                     <div class="col-xs-9">
-                        <input type="number" id="repairId" name="repairId" ng-model="vm.repairData.id" readonly/>
+                        <input type="number" id="repairId" name="repairId" ng-model="vm.repairData.id" readonly disabled/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3">
-                        Numer Hash narzędzia:
+                        <b>Opis naprawianej części:</b>
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="partdesc" name="partdesc" ng-model="vm.repairData.partdesc" required/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <b>Obszar i maszyna:</b>
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="machineArea" name="machineArea" ng-model="vm.repairData.machineArea" />
+                        <input type="text" id="machineId" name="machineId" ng-model="vm.repairData.machineId" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <b>Numer Hash narzędzia:</b>
                     </div>
                     <div class="col-xs-9">
                         <input type="text" id="hashNo" name="hashNo" ng-model="vm.repairData.hashId" readonly/>
                     </div>
-                </div>
+                </div>                
                 <div class="row">
                     <div class="col-xs-3">
-                        Opis naprawianej części:
+                        <b>Opis uszkodzenia:</b>
                     </div>
                     <div class="col-xs-9">
-                        <input type="text" id="partdesc" name="partdesc" ng-model="vm.repairData.partdesc" />
+                        <textarea id="failuredesc" name="failuredesc" ng-model="vm.repairData.failuredesc" required></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3">
-                        Opis uszkodzenia:
-                    </div>
-                    <div class="col-xs-9">
-                        <textarea id="failuredesc" name="failuredesc" ng-model="vm.repairData.failuredesc"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        Opis naprawy:
+                        <b>Opis naprawy:</b>
                     </div>
                     <div class="col-xs-9">
                         <textarea id="repairdesc" name="repairdesc" ng-model="vm.repairData.repairdesc"></textarea>
@@ -49,41 +58,48 @@
 
                 <div class="row">
                     <div class="col-xs-3">
-                        Data uszkodzenia:
+                        <b>Data uszkodzenia:</b>
                     </div>
                     <div class="col-xs-9">
-                            <input type="datetime" id="breakdownDate" name="breakdownDate" ng-model="vm.repairData.breakdownDate"
-                                   uib-datepicker-popup="{{'yyyy/MM/dd HH:mm:ss'}}"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        Szacowana data naprawy:
-                    </div>
-                    <div class="col-xs-9">
-                        <input type="datetime" id="estimatedRepairDate" name="estimatedRepairDate" ng-model="vm.repairData.estimatedRepairDate" 
-                               uib-datepicker-popup="{{'yyyy/MM/dd HH:mm:ss'}}" is-open="vm.repairDatePopup"  
-                               close-text="Zamknij" clear-text="Wyczyść" current-text="Dziś" popup-placement="auto left-top" readonly/>
-                        <button ng-click="vm.repairDatePopup = !vm.repairDatePopup">
+                        <span>
                             <i class="fa fa-calendar" aria-hidden="true"></i>
-                        </button>
+                        </span>
+                        <input type="datetime" id="breakdownDate" name="breakdownDate" ng-model="vm.repairData.breakdownDate"
+                                uib-datepicker-popup="{{'yyyy-MM-dd HH:mm:ss'}}" readonly disabled/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3">
-                        Data naprawy:
+                        <b>Szacowana data naprawy:</b>
                     </div>
                     <div class="col-xs-9">
+                        <span ng-click="vm.repairDatePopup = !vm.repairDatePopup">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
+                        <input type="datetime" id="estimatedRepairDate" name="estimatedRepairDate" ng-model="vm.repairData.estimatedRepairDate"
+                                uib-datepicker-popup="{{'yyyy-MM-dd HH:mm:ss'}}" is-open="vm.repairDatePopup"
+                                close-text="Zamknij" clear-text="Wyczyść" current-text="Dziś" popup-placement="auto left-top" readonly 
+                               required/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <b>Data naprawy:</b>
+                    </div>
+                    <div class="col-xs-9">
+                        <span>
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
                         <input type="datetime" id="repairDate" name="repairDate" ng-model="vm.repairData.repairDate" 
-                               uib-datepicker-popup="{{'yyyy/MM/dd HH:mm:ss'}}"/>
+                               uib-datepicker-popup="{{'yyyy-MM-dd HH:mm:ss'}}" readonly disabled/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3">
-                        Status naprawy:
+                        <b>Status naprawy:</b>
                     </div>
                     <div class="col-xs-9">
-                        <input type="text" id="status" name="status" ng-model="vm.repairData.status" readonly />
+                        <input type="text" id="status" name="status" ng-model="vm.repairData.status" readonly disabled/>
                     </div>
                 </div>
             </div>
@@ -91,7 +107,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="vm.submitModal()">Zapisz narzędzie</button>
+        <button class="btn btn-primary" type="button" ng-click="vm.submitModal()">Zapisz naprawę</button>
         <button class="btn btn-warning" type="button" ng-click="vm.closeModal()">Anuluj</button>
     </div>
 </div>

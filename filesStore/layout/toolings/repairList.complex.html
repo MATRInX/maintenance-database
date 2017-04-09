@@ -3,9 +3,29 @@
         <ng-include src="'layout/main.menu.html'"></ng-include>
     </div>
     <div class="repairListMainContainer">
-        <button ng-click="vm.addRepair(null,'add')">Dodaj naprawę</button>
-        <div class="repairListContent container-fluid" ng-repeat="repairItem in vm.repairList | orderBy: '-id'">
-            <ng-include src="'layout/toolings/repairListItem.complex.html'"></ng-include>
+        <div class="repairMenu floatFix">
+            <ul>
+                <li><button ng-click="vm.addRepair(null,'add')">Dodaj naprawę</button></li>
+                <li><button ng-click="vm.showAllRepairs(vm.repairList)">Rozwiń wszystkie</button></li>
+                <li><button ng-click="vm.hideAllRepairs(vm.repairList)">Schowaj wszystkie</button></li>
+                <li>
+                    <input type="text" ng-model="vm.repairFilter" placeholder="Wyszukaj naprawy" ng-change="vm.checkFilterChoices()"/>
+                    <div id="listbox">
+                        <ul>
+                            <li ng-repeat="item in vm.repairList | search: vm.repairFilter: ['id','hashId','machineArea', 'machineId','partdesc','failuredesc', 'status', 'lastEditor']"
+                                ng-click="vm.repairFilter = item;vm.choiceIdVisible = false;" ng-show="vm.choiceIdVisible">
+                                <div>{{$index + " " + item}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li><button ng-click="vm.clearFilter()">Wyczyść filtr</button></li>
+            </ul>
+        </div>
+        <div style="overflow-y:scroll;height: 600px;">
+            <div class="repairListContent container-fluid" ng-repeat="repairItem in vm.repairList | multiwords:vm.repairFilter | orderBy: '-id'">
+                <ng-include src="'layout/toolings/repairListItem.complex.html'"></ng-include>
+            </div>        
         </div>        
     </div>
 </div>

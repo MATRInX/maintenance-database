@@ -15,6 +15,8 @@
         vm.userRight = userRight;
         vm.menu = MAIN_MENU.MENU;
         vm.userFullName = '';
+        vm.repairFilter = '';
+        vm.choiceIdVisible = false;
 
         vm.repairList = [];
 
@@ -23,10 +25,22 @@
         vm.editRepair = editRepair;
         vm.finishRepair = finishRepair;
         vm.pickupRepair = pickupRepair;
+        vm.showAllRepairs = showAllRepairs;
+        vm.hideAllRepairs = hideAllRepairs;
+        vm.clearFilter = clearFilter;
+        vm.checkFilterChoices = checkFilterChoices;
 
         initialize();
 
         //////////////////////////////////////////////////////////////////////////////////
+        function checkFilterChoices() {
+            if (vm.repairFilter === '') {
+                vm.choiceIdVisible = false;
+            }
+            else {
+                vm.choiceIdVisible = true;
+            }
+        }
         function initialize() {
             checkLoginStatus();
             getRepairList();
@@ -149,6 +163,22 @@
             //toolData.estimatedRepairDate = dateToString(toolData.estimatedRepairDate);
             //toolData.pickupDate = dateToString(toolData.pickupDate);
             toolingsHelper.pickupRepair(toolData).then(getRepairList);
+        }
+        function showAllRepairs(array) {
+            array.forEach(showRepair);
+        }
+        function hideAllRepairs(array) {
+            array.forEach(hideRepair);
+        }
+        function showRepair(item) {
+            item.isCollapsed = false;
+        }
+        function hideRepair(item) {
+            item.isCollapsed = true;
+        }
+        function clearFilter() {
+            vm.repairFilter = '';
+            vm.choiceIdVisible = false;
         }
         function dateToString(date) {
             if (angular.isDate(date)) {

@@ -427,7 +427,60 @@
     @toolingSideMargin: 0px;
     @defaultPadding: 6px;
     @defaultMargin: @defaultPadding;
+    @biggestHeight: 6em;
     margin-left: 2%;
+    .repairMenu{
+        margin-bottom: 5px;
+        ul{
+            padding-left: 0px;
+        }        
+        ul > li{
+            float: left;
+            list-style: none;
+            text-decoration: none;
+            margin-right: 5px;
+            button{
+                display: block;
+                background-color: white;
+                padding: @defaultPadding;
+                border: 2px solid @mainLightColor;
+                border-radius: 5px;
+                color: @mainDarkColor;
+                text-decoration: none;
+                font-weight: bold;
+                &:hover{
+                    background-color: @mainLightColor;
+                }
+            }
+            input{
+                padding: @defaultPadding;
+            }
+        }
+        #listbox{
+            /*display: none;*/
+            position: absolute;
+            width: 186px;
+            max-height: 100px;
+            background-color: white;
+            overflow: hidden;
+            box-shadow: 0px 0px 5px #888888;
+            z-index: 100;
+            ul > li{
+                display: block;
+                float: none;
+                
+            }
+            li:hover, div:hover{
+                background-color: gray;
+            }
+        }
+        .showItem{
+            display: block;
+        }
+        .hideItem{
+            display: none;
+        }
+    }
     .repairListContent{
         border: 1px solid black;
         border-radius: 5px;
@@ -437,7 +490,19 @@
         }
         .repairContent{
             .repairDetailContent{
-
+                span{
+                    font-weight: bold;
+                }
+                textarea{
+                    padding: @defaultPadding;
+                    display: block;
+                    width: 100%;
+                    height: @biggestHeight;
+                    resize: none;
+                }
+                .row{
+                    margin-bottom: 5px;
+                }
             }
         }
     }
@@ -539,6 +604,13 @@
         div{
             margin-left: 0px;
         }
+    }
+    #failuredesc, #repairdesc{
+        padding: @defaultPadding;
+        display: block;
+        width: 100%;
+        height: @biggestHeight;
+        resize: none;
     }
 }
 .simpleModal{
