@@ -1,0 +1,24 @@
+﻿<div>
+    <div id="loggedUser"  >
+        <div class="loggedUserMainMenuContainer">
+            <div class="menu">
+                <ul class="mainMenu">
+                    <li ng-repeat="item in vm.menu">
+                        <a href="#">{{item.name}}</a>
+                        <ul class="subMenu">
+                            <li ng-repeat="subitem in item.menu">
+                                <a href="{{subitem.link}}">{{subitem.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="loggedUserPanelContainer" >
+            <div class="form-group" ng-cloak>
+                <span>Zalogowany użytkownik: {{vm.userFullName}}</span>
+                <input type="submit" ng-click="vm.logoutUser()" class="btn submitButton" value="Logout"/>
+            </div>
+        </div>
+    </div>
+</div>

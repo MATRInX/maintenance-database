@@ -1,0 +1,31 @@
+﻿<div class="repairListSimple">
+    <span class="repairTitle">Naprawy narzędzia - Liczba napraw: {{item.repairList.length}}</span>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-2">Opis uszkodzenia</div>
+            <div class="col-xs-2">Opis naprawy</div>
+            <div class="col-xs-2">Data uszkodzenia</div>
+            <div class="col-xs-2">Przewidywana data naprawy lub data naprawy</div>
+            <div class="col-xs-2">Status</div>
+            <div class="col-xs-2">Działania</div>
+        </div>
+        <div class="content">
+            <div class="row" ng-repeat="repairItem in item.repairList | orderBy: '-breakdownDate'">
+                <div class="col-xs-2">{{repairItem.failuredesc}}</div>
+                <div class="col-xs-2">{{repairItem.repairdesc}}</div>
+                <div class="col-xs-2">{{repairItem.breakdownDate}}</div>
+                <div class="col-xs-2" ng-show="repairItem.status === 'W trakcie naprawy'">{{repairItem.estimatedRepairDate}}</div>
+                <div class="col-xs-2" ng-show="repairItem.status !== 'W trakcie naprawy'">{{repairItem.repairDate}}</div>
+                <div class="col-xs-2">{{repairItem.status}}</div>
+                <div class="col-xs-2">
+                    <button ng-click="vm.callEditRepairModal(repairItem, 'edition')" uib-tooltip="Edycja naprawy"
+                            ng-show="repairItem.status !== 'Naprawa zakończona - odebrana'">
+                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                    </button>
+                    <button ng-click="vm.finishRepair(repairItem)" ng-show="repairItem.status === 'W trakcie naprawy'">Naprawa narzędzia</button>
+                    <button ng-click="vm.pickupRepair(repairItem)" ng-show="repairItem.status === 'Naprawa zakończona'">Odbiór narzędzia</button>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>

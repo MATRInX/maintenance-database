@@ -66,7 +66,110 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="components\addSimpleData.modal.controller.js" />
+    <Content Include="components\addSimpleData.modal.html" />
+    <Content Include="components\info.modal.controller.js" />
+    <Content Include="components\info.modal.html" />
+    <Content Include="components\repair.modal.controller.js" />
+    <Content Include="components\repair.modal.html" />
+    <Content Include="components\yesNo.modal.controller.js" />
+    <Content Include="components\yesNo.modal.html" />
+    <Content Include="content\font-awesome\css\font-awesome.css" />
+    <Content Include="content\font-awesome\css\font-awesome.min.css" />
+    <Content Include="content\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="content\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="factories\toolingsHelper.factory.js" />
+    <Content Include="factories\documentsHelper.factory.js" />
+    <Content Include="factories\modal.factory.js" />
+    <Content Include="filters\multiwords.filter.js" />
+    <Content Include="filters\pagination.filter.js" />
+    <Content Include="layout\files\addDocument.controller.js" />
+    <Content Include="layout\files\addDocument.modal.html" />
+    <Content Include="layout\files\documentsContent.html" />
+    <Content Include="layout\files\upload.php" />
+    <Content Include="layout\inBuild.controller.js" />
+    <Content Include="layout\inBuildContent.html" />
+    <Content Include="layout\loginContent.html" />
+    <Content Include="layout\mainContent.html" />
+    <Content Include="layout\testContent.html" />
+    <Content Include="layout\files\documents.controller.js" />
+    <Content Include="layout\files\instructions.controller.js" />
+    <Content Include="layout\files\tpm.controller.js" />
+    <Content Include="layout\files\filesLayout.html" />
+    <Content Include="layout\toolings\addEditTooling.modal.controller.js" />
+    <Content Include="layout\toolings\addEditTooling.modal.html" />
+    <Content Include="layout\toolings\repairList.complex.controller.js" />
+    <Content Include="layout\toolings\repairList.complex.html" />
+    <Content Include="layout\toolings\repairList.simple.html" />
+    <Content Include="layout\toolings\repairListItem.complex.html" />
+    <Content Include="layout\toolings\toolingsList.controller.js" />
+    <Content Include="layout\toolings\toolingsList.html" />
+    <Content Include="layout\toolings\toolingsMainContent.html" />
+    <Content Include="models\SimpleObj.php" />
+    <Content Include="models\Tooling.php" />
+    <Content Include="models\ToolingData.php" />
+    <Content Include="models\toolingsModel.php" />
     <Content Include="packages.config" />
+    <Content Include="content\less\style.less" />
+    <Content Include="angular\app.module.js" />
+    <None Include="htaccess">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-animate.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-touch.js" />
+    <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="models\mass.json" />
+    <Content Include="models\m20v.json" />
+    <Content Include="models\locations.json" />
+    <Content Include="models\process.json" />
+    <Content Include="content\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="content\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="content\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="content\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="content\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="content\font-awesome\less\animated.less" />
+    <Content Include="content\font-awesome\less\bordered-pulled.less" />
+    <Content Include="content\font-awesome\less\core.less" />
+    <Content Include="content\font-awesome\less\fixed-width.less" />
+    <Content Include="content\font-awesome\less\font-awesome.less" />
+    <Content Include="content\font-awesome\less\icons.less" />
+    <Content Include="content\font-awesome\less\larger.less" />
+    <Content Include="content\font-awesome\less\list.less" />
+    <Content Include="content\font-awesome\less\mixins.less" />
+    <Content Include="content\font-awesome\less\path.less" />
+    <Content Include="content\font-awesome\less\rotated-flipped.less" />
+    <Content Include="content\font-awesome\less\screen-reader.less" />
+    <Content Include="content\font-awesome\less\stacked.less" />
+    <Content Include="content\font-awesome\less\variables.less" />
+    <Content Include="content\font-awesome\scss\font-awesome.scss" />
+    <Content Include="content\font-awesome\scss\_animated.scss" />
+    <Content Include="content\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="content\font-awesome\scss\_core.scss" />
+    <Content Include="content\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="content\font-awesome\scss\_icons.scss" />
+    <Content Include="content\font-awesome\scss\_larger.scss" />
+    <Content Include="content\font-awesome\scss\_list.scss" />
+    <Content Include="content\font-awesome\scss\_mixins.scss" />
+    <Content Include="content\font-awesome\scss\_path.scss" />
+    <Content Include="content\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="content\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="content\font-awesome\scss\_stacked.scss" />
+    <Content Include="content\font-awesome\scss\_variables.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -75,10 +178,51 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular\app.config.js" />
+    <Content Include="content\bootstrap-theme.css" />
+    <Content Include="content\bootstrap-theme.min.css" />
+    <Content Include="content\bootstrap.css" />
+    <Content Include="content\bootstrap.min.css" />
+    <Content Include="content\css\style.css" />
+    <Content Include="content\css\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="content\ui-bootstrap-csp.css" />
+    <Content Include="factories\userData.factory.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="index.html" />
+    <Content Include="layout\login.controller.js" />
+    <Content Include="layout\main.menu.html" />
+    <Content Include="models\login.php" />
+    <Content Include="models\SafeFunction.php" />
+    <Content Include="models\UserData.php" />
+    <Content Include="models\userDataModel.php" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="content\bootstrap.min.css.map" />
+    <Content Include="content\bootstrap.css.map" />
+    <Content Include="content\bootstrap-theme.min.css.map" />
+    <Content Include="content\bootstrap-theme.css.map" />
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\js\" />
+    <Folder Include="files\" />
+    <Folder Include="images\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -91,15 +235,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51101</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51101/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost/filesStore/filesStore</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

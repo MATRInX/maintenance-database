@@ -1,0 +1,97 @@
+﻿<div class="toolingModal">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Dodanie/Edycja naprawy narzędzia - {{vm.type}}</h3>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+        <form name="toolEditForm">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-3">
+                        Id zlecenia:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="number" id="repairId" name="repairId" ng-model="vm.repairData.id" readonly/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Numer Hash narzędzia:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="hashNo" name="hashNo" ng-model="vm.repairData.hashId" readonly/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Opis naprawianej części:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="partdesc" name="partdesc" ng-model="vm.repairData.partdesc" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Opis uszkodzenia:
+                    </div>
+                    <div class="col-xs-9">
+                        <textarea id="failuredesc" name="failuredesc" ng-model="vm.repairData.failuredesc"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Opis naprawy:
+                    </div>
+                    <div class="col-xs-9">
+                        <textarea id="repairdesc" name="repairdesc" ng-model="vm.repairData.repairdesc"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        Data uszkodzenia:
+                    </div>
+                    <div class="col-xs-9">
+                            <input type="datetime" id="breakdownDate" name="breakdownDate" ng-model="vm.repairData.breakdownDate"
+                                   uib-datepicker-popup="{{'yyyy/MM/dd HH:mm:ss'}}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Szacowana data naprawy:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="datetime" id="estimatedRepairDate" name="estimatedRepairDate" ng-model="vm.repairData.estimatedRepairDate" 
+                               uib-datepicker-popup="{{'yyyy/MM/dd HH:mm:ss'}}" is-open="vm.repairDatePopup"  
+                               close-text="Zamknij" clear-text="Wyczyść" current-text="Dziś" popup-placement="auto left-top" readonly/>
+                        <button ng-click="vm.repairDatePopup = !vm.repairDatePopup">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Data naprawy:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="datetime" id="repairDate" name="repairDate" ng-model="vm.repairData.repairDate" 
+                               uib-datepicker-popup="{{'yyyy/MM/dd HH:mm:ss'}}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Status naprawy:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="status" name="status" ng-model="vm.repairData.status" readonly />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.submitModal()">Zapisz narzędzie</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.closeModal()">Anuluj</button>
+    </div>
+</div>
