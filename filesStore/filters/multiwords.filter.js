@@ -52,7 +52,34 @@
                     for (var i = 0; i < firstFiltered.length; i++) {
                         var item;
                         for (item in firstFiltered[i]) {
-                            var tempstr = new String(firstFiltered[i][item]);
+                            var tempstr = '';
+                            if (angular.isArray(firstFiltered[i][item])) {
+                                for (var k = 0; k < firstFiltered[i][item].length; k++) {
+                                    if (angular.isObject(firstFiltered[i][item][k])) {
+                                        if (firstFiltered[i][item][k].hasOwnProperty('name')) {
+                                            tempstr = new String(firstFiltered[i][item][k].name);
+                                            if (tempstr.search(regexp) >= 0) {
+                                                break;
+                                            }
+                                        }
+                                        else {
+                                            tempstr = new String(firstFiltered[i][item][k]);
+                                            if (tempstr.search(regexp) >= 0) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        tempstr = new String(firstFiltered[i][item][k]);
+                                        if (tempstr.search(regexp) >= 0) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                tempstr = new String(firstFiltered[i][item]);
+                            }
                             if (tempstr.search(regexp) >= 0) {
                                 filtered.push(firstFiltered[i]);
                                 break;
