@@ -5,7 +5,7 @@
     .module('fileStoreApp')
     .controller('addEditToolingController', addToolingController);
 
-    function addToolingController($uibModalInstance, dataItems, $log, toolingsHelper, $q, modalService) {
+    function addToolingController($uibModalInstance, dataItems, $log, toolingsHelper, $q, modalService, $scope) {
         var vm = this;
         vm.formData = {
             hashNo: '',
@@ -39,6 +39,10 @@
         vm.isToolNoEmpty = false;
         vm.isOldToolNoEmpty = false;
         vm.isClipboardEmpty = true;
+
+        vm.testowyString = '';
+        vm.testy = [];
+        vm.testAdd = testAdd;
         
         vm.getSelectData = getSelectData;
         vm.submitModal = submitModal;
@@ -55,7 +59,32 @@
 
         vm.getSelectData();
 
+        $scope.$watch('vm.testowyString', testAdd);
+
         //////////////////////////////////////////////////////////////////////////////////////////
+        function testAdd(text) {
+            var isDivider = text.search('\n');
+            var temp = [];
+            if (isDivider >= 0) {
+                temp = text.split('\n');
+            }
+            var truly = true;
+            var reg = "^(M20V|M5KA)+\\w{5}$";
+            var regexp = new RegExp(reg, "i");
+            for (var i = 0; i < temp.length; i++) {
+                var ttt = temp[i].search(regexp);
+                $log.log(regexp);
+                $log.log(ttt);
+                if (ttt >= 0) {
+                    vm.testy.push({ name: temp[i], status: true });
+                }
+                else {
+                    if (temp[i].length >= 9)
+                        vm.testy.push({ name: temp[i], status: false });
+                }
+            }
+
+        }
         function getSelectData() {
             toolingsHelper.getModalLists().then(getModalListsSuccess);
             vm.modalType = dataItems.type;

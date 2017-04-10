@@ -610,6 +610,12 @@
 .lighterColor {
   background-color: #ffeb79;
 }
+.redLight {
+  background-color: red;
+}
+.yellowLight {
+  background-color: yellow;
+}
 .floatFix:after {
   content: '';
   display: block;
