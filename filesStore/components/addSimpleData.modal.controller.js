@@ -8,7 +8,7 @@
     function addSimpleDataController($uibModalInstance, dataItems, $log) {
         var vm = this;
         vm.textToDisplay = dataItems.textToDisplay;
-        vm.newDataItem = '';
+        vm.newDataItem = dataItems.tempText;
 
         vm.submitModal = submitModal;
         vm.closeModal = closeModal;

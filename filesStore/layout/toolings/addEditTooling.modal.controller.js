@@ -42,7 +42,8 @@
 
         vm.testowyString = '';
         vm.testy = [];
-        vm.testAdd = testAdd;
+        vm.testAdd = m20vAddAndCheck;
+        vm.callEv = enterDown;
         
         vm.getSelectData = getSelectData;
         vm.submitModal = submitModal;
@@ -55,35 +56,74 @@
         vm.clearHashNumberStatus = clearHashNumberStatus;
         vm.pasteClipboard = pasteClipboard;
         vm.callAddNewMass = callAddNewMass;
-        vm.callAddNewM20v = callAddNewM20v;        
+        vm.callAddNewM20v = callAddNewM20v;
 
         vm.getSelectData();
 
-        $scope.$watch('vm.testowyString', testAdd);
+        //$scope.$watch('vm.testowyString', testAdd);
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        function testAdd(text) {
-            var isDivider = text.search('\n');
-            var temp = [];
-            if (isDivider >= 0) {
-                temp = text.split('\n');
+        function enterDown(event, text) {
+            if (event.keyCode == 13) {  // ENTER is pressed
+                event.preventDefault();
+                m20vAddAndCheck(text);
+                vm.testowyString = '';
             }
-            var truly = true;
+        }
+        function m20vAddAndCheck(text) {
+            // Check if there is a lot o lines
+            var isDivider = text.search('\n');
+            var textArray = [];
+            var textToCheck = '';
+            var m20vString = '';
+            for (var i = 0; i < vm.m20vReferences.length; i++)
+                m20vString += vm.m20vReferences[i].name;
+
+            if (isDivider >= 0) {
+                textArray = text.split('\n');
+            }
+            else {
+                textToCheck = text;
+            }
+            // regular expression to check if text is simmilar to reference value
             var reg = "^(M20V|M5KA)+\\w{5}$";
             var regexp = new RegExp(reg, "i");
-            for (var i = 0; i < temp.length; i++) {
-                var ttt = temp[i].search(regexp);
-                $log.log(regexp);
-                $log.log(ttt);
-                if (ttt >= 0) {
-                    vm.testy.push({ name: temp[i], status: true });
-                }
-                else {
-                    if (temp[i].length >= 9)
-                        vm.testy.push({ name: temp[i], status: false });
+
+            if (textArray.length > 0) {
+                // There is a lot of text fields
+                for (var i = 0; i < textArray.length; i++) {
+                    var regCheck = textArray[i].search(regexp);
+                    if (regCheck >= 0) {
+                        var regexp2 = new RegExp(textArray[i], "i");
+                        var regCheck2 = m20vString.search(regexp2);
+                        $log.log(m20vString);
+                        $log.log(regexp);
+                        $log.log(regCheck2);
+                        if (regCheck2 >= 0) {
+                            vm.testy.push({ name: textArray[i], refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                        }
+                        else {
+                            vm.testy.push({ name: textArray[i], refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                        }
+                        
+                    }
+                    else {
+                        vm.testy.push({ name: textArray[i], refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                    }
                 }
             }
-
+            else {
+                // There is only one text
+                var regCheck = textToCheck.search(regexp);
+                if (regCheck >= 0) {
+                    // word is ok - good reference number
+                    vm.testy.push({ name: textToCheck, refOkAvailable: false, refOkNotAvailabel: true, refNok: false });                    
+                }
+                else {
+                    vm.testy.push({ name: textToCheck, refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                }
+            }
+            $log.log(vm.testy);
         }
         function getSelectData() {
             toolingsHelper.getModalLists().then(getModalListsSuccess);
@@ -235,7 +275,8 @@
         function callAddNewMass() {
             var dataItems = function () {
                 var returnValue = {
-                    textToDisplay: 'Referencja MASS*'
+                    textToDisplay: 'Referencja MASS*',
+                    tempText: ''
                 }
                 return returnValue;
             }
@@ -257,10 +298,11 @@
                 vm.massReferences = response;
             }
         }
-        function callAddNewM20v() {
+        function callAddNewM20v(tempReference) {
             var dataItems = function () {
                 var returnValue = {
-                    textToDisplay: 'Referencja M20V*'
+                    textToDisplay: 'Referencja M20V*',
+                    tempText: tempReference
                 }
                 return returnValue;
             }

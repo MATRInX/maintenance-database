@@ -124,7 +124,7 @@
                     <div id="massAdd" class="col-xs-6">
                         <input type="text" ng-model="vm.massFilter" placeholder="Filtr MASS" />
                         <button class="btn submitButton" ng-click="vm.massFilter = ''">X</button>
-                        <button class="btn submitButton" ng-click="vm.callAddNewMass()">Dodaj MASS*</button>
+                        <button class="btn submitButton" ng-click="vm.callAddNewMass('')">Dodaj MASS*</button>
                         <div class="container-fluid" style="height: 80px; overflow-y:scroll; width: 120px; margin-left: 0px;">
                             <div class="row" ng-repeat="item in vm.massReferences | filter:vm.massFilter">
                                 <a href="" ng-click="vm.addMassItem(item)">{{item.name}}</a>
@@ -148,18 +148,24 @@
                     <div id="m20vAdd" class="col-xs-6">
                         <input type="text" ng-model="vm.m20vFilter" placeholder="Filtr M20V" />
                         <button class="btn submitButton" ng-click="vm.m20vFilter = ''">X</button>
-                        <button class="btn submitButton" ng-click="vm.callAddNewM20v()">Dodaj M20V*</button>
+                        <button class="btn submitButton" ng-click="vm.callAddNewM20v('')">Dodaj M20V*</button>
                         <div class="container-fluid" style="height: 80px; overflow-y:scroll; width: 120px; margin-left: 0px;">
                             <div class="row" ng-repeat="item in vm.m20vReferences | filter:vm.m20vFilter">
                                 <a href="" ng-click="vm.addM20vItem(item)">{{item.name}}</a>
                             </div>
                         </div>
                         <div>
-                            <textarea style="width: 100%; height: 100px;" ng-model="vm.testowyString"></textarea>                            
+                            <textarea style="width: 100%; height: 100px;" ng-model="vm.testowyString" ng-keydown="vm.callEv($event, vm.testowyString)"></textarea>
                             <div style="width: 100%; height: 100px;overflow-y: scroll;">
-                                <div ng-repeat="item in vm.testy"
-                                     ng-class="[{redLight: item.status}, {yellowLight: !item.status}]">
-                                    {{item.name}}
+                                <div ng-repeat="item in vm.testy">
+                                    <a href="" ng-if="item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}, {greenLight: item.refOkAvailable}]"
+                                               ng-click="vm.callAddNewM20v(item.name)">
+                                        {{item.name}}
+                                    </a>
+                                    <a href="" ng-if="!item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}, {greenLight: item.refOkAvailable}]">
+                                        {{item.name}}
+                                    </a>
+                                    <a href="" ng-click="vm.testy.splice($index, 1)">X</a>
                                 </div>
                             </div>
                             <button ng-click="vm.testAdd(vm.testowyString)">Test</button>
