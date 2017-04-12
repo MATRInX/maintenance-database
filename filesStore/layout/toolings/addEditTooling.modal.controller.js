@@ -58,7 +58,7 @@
         vm.callAddNewMass = callAddNewMass;
         vm.callAddNewM20v = callAddNewM20v;
 
-        vm.getSelectData();
+        vm.getSelectData(null);
 
         //$scope.$watch('vm.testowyString', testAdd);
 
@@ -66,8 +66,8 @@
         function enterDown(event, text) {
             if (event.keyCode == 13) {  // ENTER is pressed
                 event.preventDefault();
-                m20vAddAndCheck(text);
-                vm.testowyString = '';
+                vm.getSelectData(m20vAddAndCheck(text));
+                vm.m20vFilter = '';
             }
         }
         function m20vAddAndCheck(text) {
@@ -86,7 +86,7 @@
                 textToCheck = text;
             }
             // regular expression to check if text is simmilar to reference value
-            var reg = "^(M20V|M5KA)+\\w{5}$";
+            var reg = "^(MS08|MP4A|M2GA|M20V|M20M|M20G|MP40|M5KA|M5EA|N20V|MK20V|M772)+\\w{5}$";
             var regexp = new RegExp(reg, "i");
 
             if (textArray.length > 0) {
@@ -96,19 +96,22 @@
                     if (regCheck >= 0) {
                         var regexp2 = new RegExp(textArray[i], "i");
                         var regCheck2 = m20vString.search(regexp2);
-                        $log.log(m20vString);
-                        $log.log(regexp);
-                        $log.log(regCheck2);
+                        //$log.log(m20vString);
+                        //$log.log(regexp);
+                        //$log.log(regCheck2);
                         if (regCheck2 >= 0) {
-                            vm.testy.push({ name: textArray[i], refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                            if (checkIsTextUnique(textArray[i], vm.formData.m20v))
+                                vm.formData.m20v.push({ name: textArray[i].toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
                         }
                         else {
-                            vm.testy.push({ name: textArray[i], refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                            if (checkIsTextUnique(textArray[i], vm.formData.m20v))
+                                vm.formData.m20v.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
                         }
                         
                     }
                     else {
-                        vm.testy.push({ name: textArray[i], refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                        if (checkIsTextUnique(textArray[i], vm.formData.m20v))
+                            vm.formData.m20v.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
                     }
                 }
             }
@@ -117,16 +120,41 @@
                 var regCheck = textToCheck.search(regexp);
                 if (regCheck >= 0) {
                     // word is ok - good reference number
-                    vm.testy.push({ name: textToCheck, refOkAvailable: false, refOkNotAvailabel: true, refNok: false });                    
+                    var regexp2 = new RegExp(textToCheck, "i");
+                    var regCheck2 = m20vString.search(regexp2);
+                    if (regCheck2 >= 0) {
+                        if (checkIsTextUnique(textToCheck, vm.formData.m20v))
+                            vm.formData.m20v.push({ name: textToCheck.toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                    }
+                    else {
+                        if (checkIsTextUnique(textToCheck, vm.formData.m20v))
+                            vm.formData.m20v.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                    }
+                    
                 }
                 else {
-                    vm.testy.push({ name: textToCheck, refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                    if (checkIsTextUnique(textToCheck, vm.formData.m20v))
+                        vm.formData.m20v.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
                 }
             }
-            $log.log(vm.testy);
+            //$log.log(vm.testy);
+            function checkIsTextUnique(textToCheck, arrayToCheck) {
+                if (angular.isArray(arrayToCheck)) {
+                    for (var i = 0; i < arrayToCheck.length; i++) {
+                        var textToCheck1 = arrayToCheck[i].name.toUpperCase();
+                        var textToCheck2 = textToCheck.toUpperCase();
+                        $log.log(textToCheck1 + " " + textToCheck2);
+                        if (textToCheck1 == textToCheck2) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                    return true;
+            }
         }
-        function getSelectData() {
-            toolingsHelper.getModalLists().then(getModalListsSuccess);
+        function getSelectData(anotherPromise) {
+            toolingsHelper.getModalLists().then(getModalListsSuccess).then(anotherPromise);
             vm.modalType = dataItems.type;
             //vm.toolingLocation = dataItems.lists.locations;
             //vm.toolingProcess = dataItems.lists.process;
@@ -172,7 +200,17 @@
                     // Deep clone of form data to not have any problems with not number hash number
                     var returnData = JSON.parse(JSON.stringify(vm.formData));
                     returnData.hashNo = "#" + returnData.hashNo;
+                    checkM20vReferences(returnData.m20v);
                     $uibModalInstance.close(returnData);
+                }
+                function checkM20vReferences(arrayWithData) {
+                    // delete wrong references or references which are not in database
+                    for (var i = 0; i < arrayWithData.length; i++) {
+                        if (arrayWithData[i].refNok)
+                            arrayWithData.splice(i, 1);
+                        if (arrayWithData[i].refOkNotAvailabel)
+                            arrayWithData.splice(i, 1);
+                    }
                 }
             }
         }
@@ -322,6 +360,28 @@
 
             function getM20vSuccess(response) {
                 vm.m20vReferences = response;
+                checkAddedM20vReferences();
+            }
+        }
+        function checkAddedM20vReferences() {
+            getSelectData(updateM20vReferences);
+
+            function updateM20vReferences() {
+                var m20vString = '';
+                for (var i = 0; i < vm.m20vReferences.length; i++)
+                    m20vString += vm.m20vReferences[i].name;
+
+                for (var i = 0; i < vm.formData.m20v.length; i++) {
+                    if (vm.formData.m20v[i].refOkNotAvailabel) {
+                        var regexp2 = new RegExp(vm.formData.m20v[i], "i");
+                        var regCheck2 = m20vString.search(regexp2);
+                        if (regCheck2 >= 0) {
+                            // Reference is added I can change status
+                            vm.formData.m20v[i].refOkNotAvailabel = false;
+                            vm.formData.m20v[i].refOkAvailable = true;
+                        }
+                    }                    
+                }
             }
         }
     }
