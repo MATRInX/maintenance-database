@@ -23,6 +23,8 @@
             status: '',
             numberoftoolings: 1
         }
+        vm.dataToEdit = {};
+        vm.firstDataDownload = false;
         vm.toolingLocation = [];
         vm.toolingLocationFilter = '';
         vm.toolingProcess = [];
@@ -66,11 +68,14 @@
         function enterDown(event, text) {
             if (event.keyCode == 13) {  // ENTER is pressed
                 event.preventDefault();
-                vm.getSelectData(m20vAddAndCheck(text));
+                vm.getSelectData(null);
+                m20vAddAndCheck(text);
                 vm.m20vFilter = '';
             }
         }
         function m20vAddAndCheck(text) {
+            $log.log('addm20vref');
+            $log.log(text);
             // Check if there is a lot o lines
             var isDivider = text.search('\n');
             var textArray = [];
@@ -81,14 +86,19 @@
 
             if (isDivider >= 0) {
                 textArray = text.split('\n');
+                $log.log('tablica referencji')
             }
             else {
                 textToCheck = text;
+                $log.log('pojedynczy tekst');
             }
             // regular expression to check if text is simmilar to reference value
             var reg = "^(MS08|MP4A|M2GA|M20V|M20M|M20G|MP40|M5KA|M5EA|N20V|MK20V|M772)+\\w{5}$";
             var regexp = new RegExp(reg, "i");
-
+            var tempArrayWithM20V = vm.formData.m20v;//JSON.parse(JSON.stringify(vm.formData.m20v));
+            $log.log(vm.formData.m20v);
+            $log.log(tempArrayWithM20V);
+            $log.log(vm.dataToEdit);
             if (textArray.length > 0) {
                 // There is a lot of text fields
                 for (var i = 0; i < textArray.length; i++) {
@@ -101,17 +111,17 @@
                         //$log.log(regCheck2);
                         if (regCheck2 >= 0) {
                             if (checkIsTextUnique(textArray[i], vm.formData.m20v))
-                                vm.formData.m20v.push({ name: textArray[i].toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                                tempArrayWithM20V.push({ name: textArray[i].toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
                         }
                         else {
                             if (checkIsTextUnique(textArray[i], vm.formData.m20v))
-                                vm.formData.m20v.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                                tempArrayWithM20V.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
                         }
                         
                     }
                     else {
                         if (checkIsTextUnique(textArray[i], vm.formData.m20v))
-                            vm.formData.m20v.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                            tempArrayWithM20V.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
                     }
                 }
             }
@@ -124,19 +134,24 @@
                     var regCheck2 = m20vString.search(regexp2);
                     if (regCheck2 >= 0) {
                         if (checkIsTextUnique(textToCheck, vm.formData.m20v))
-                            vm.formData.m20v.push({ name: textToCheck.toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                            tempArrayWithM20V.push({ name: textToCheck.toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
                     }
                     else {
                         if (checkIsTextUnique(textToCheck, vm.formData.m20v))
-                            vm.formData.m20v.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                            tempArrayWithM20V.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
                     }
                     
                 }
                 else {
                     if (checkIsTextUnique(textToCheck, vm.formData.m20v))
-                        vm.formData.m20v.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                        tempArrayWithM20V.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
                 }
             }
+            $log.log(tempArrayWithM20V);
+            vm.formData.m20v = [];
+            vm.formData.m20v = tempArrayWithM20V;
+            $log.log(vm.formData);
+            $log.log(vm.dataToEdit);
             //$log.log(vm.testy);
             function checkIsTextUnique(textToCheck, arrayToCheck) {
                 if (angular.isArray(arrayToCheck)) {
@@ -160,12 +175,15 @@
             //vm.toolingProcess = dataItems.lists.process;
             //vm.massReferences = dataItems.lists.mass;
             //vm.m20vReferences = dataItems.lists.m20v;
-            if (vm.modalType == "edition") {
-                var dataToEdit = JSON.parse(JSON.stringify(dataItems.data));                
+            if ((vm.modalType == "edition") && (!vm.firstDataDownload)) {
+                vm.dataToEdit = JSON.parse(JSON.stringify(dataItems.data));
                 // For form field I have to clear hash number from '#' sign
-                dataToEdit.hashNo = clearHashNumber(dataToEdit.hashNo);
-                vm.formData = dataToEdit;
+                //vm.formData = dataItems.data;
+                //vm.formData.hashNo = clearHashNumber(vm.formData.hashNo);
+                vm.dataToEdit.hashNo = clearHashNumber(vm.dataToEdit.hashNo);
+                vm.formData = vm.dataToEdit;//JSON.parse(JSON.stringify(dataToEdit));
                 checkToolNumber();
+                vm.firstDataDownload = true;
             }
             if (dataItems.clipboard !== null) {
                 vm.isClipboardEmpty = false;

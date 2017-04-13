@@ -345,7 +345,10 @@ class ToolingData{
                 while($row = mysqli_fetch_assoc($result)){
                     $returnValue[$j] = array(
                         'name' => $row['name'],
-                        'volume' => 0
+                        'volume' => 0,
+                        'refNok' => false,
+                        'refOkNotAvailabel' => false,
+                        'refOkAvailable' => true
                     );
                     $j++;
                 }

@@ -140,11 +140,11 @@
                     <div class="col-xs-3">
                         <div id="m20vList" class="container-fluid">
                             <div class="row" ng-repeat="item in vm.formData.m20v | orderBy: 'name'">
-                                <span ng-if="item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}, {greenLight: item.refOkAvailable}]"
+                                <span ng-if="item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}]"
                                    ng-click="vm.callAddNewM20v(item.name)">
                                     {{item.name}}
                                 </span>
-                                <span ng-if="!item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}, {greenLight: item.refOkAvailable}]">
+                                <span ng-if="!item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}]">
                                     {{item.name}}
                                 </span>
                                 <a href="" ng-click="vm.deleteM20vItem(item)">X</a>
