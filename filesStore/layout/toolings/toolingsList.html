@@ -1,5 +1,5 @@
 ﻿<div class="toolingHeading row" ng-click="item.isCollapsed = !item.isCollapsed"
-     ng-class="{lightColor: !item.isCollapsed}">
+     ng-class="[{lightColor: !item.isCollapsed}, {redLight: item.status === 'W naprawie'}, {greenLight: item.status === 'Naprawione'}]">
     <div class="col-xs-1">Hash:</div>
     <div class="col-xs-1"><b>{{item.hashNo}}</b></div>
     <div class="col-xs-2" ng-show="item.toolNo">Nr narzedzia:</div>

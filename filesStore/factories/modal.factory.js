@@ -19,19 +19,19 @@
         return service;
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        function callYesNoModal(textToDisplay, modalSubmitted, modalClosed) {
+        function callYesNoModal(textToDisplay, additionalText, modalSubmitted, modalClosed) {
             if (modalSubmitted != null && modalClosed != null) {
                 var templateURL = 'components/yesNo.modal.html';
                 var controller = 'yesNoModalController';
-                var displayText = simpleModalWithText(textToDisplay);
+                var displayText = simpleModalWithText(textToDisplay, additionalText);
                 var size = 'md';
                 callModal(templateURL, controller, size, displayText, modalSubmitted, modalClosed);
             }
         }
-        function callInfoModal(textToDisplay, modalSubmitted, modalClosed) {
+        function callInfoModal(textToDisplay, additionalText, modalSubmitted, modalClosed) {
             var templateURL = 'components/info.modal.html';
             var controller = 'infoModalController';
-            var displayText = simpleModalWithText(textToDisplay);
+            var displayText = simpleModalWithText(textToDisplay, additionalText);
             var size = 'md';
             callModal(templateURL, controller, size, displayText, modalSubmitted, modalClosed);
         }
@@ -61,9 +61,10 @@
             });
             modal.result.then(modalSubmitted, modalClosed);
         }
-        function simpleModalWithText(textToDisplay) {
+        function simpleModalWithText(textToDisplay, additionalText) {
             var returnValue = {
                 text: textToDisplay,
+                additionalText: additionalText
             }
             return returnValue;
         }

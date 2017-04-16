@@ -129,7 +129,16 @@
                         if (type == 'edition') {
                             textToDisplay += ' zostało poprawnie zmienione.';
                         }
-                        modalService.callInfoModal(textToDisplay, null, null, getToolingList);
+                        // Information about deleted references
+                        var deleteInfo = '';
+                        if (angular.isArray(result.deleteInfo)) {
+                            if (result.deleteInfo.length > 0) {
+                                deleteInfo = "Wprowadzone pozycje: ";
+                                deleteInfo += result.deleteInfo.join(", ");
+                                deleteInfo += " nie zostały dodane z powodu błędów (postać lub typ referencji).";
+                            }                            
+                        }                        
+                        modalService.callInfoModal(textToDisplay, deleteInfo, null, null, getToolingList);
                         getToolingList();
                     }
                     else {
@@ -157,7 +166,6 @@
             toolingsHelper.getToolingList().then(getToolingListSuccess);
             function getToolingListSuccess(response) {                
                 vm.toolingsData = response;
-                $log.log(response);
 		        if(vm.toolingsData !== null){
 		             vm.totalItems = vm.toolingsData.length;
 		        }	

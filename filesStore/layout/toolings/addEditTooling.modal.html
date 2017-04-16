@@ -113,22 +113,31 @@
                         Referencje MASS*:<br />
                         ({{vm.formData.mass.length}} ref.)
                     </div>
+
                     <div class="col-xs-3">
                         <div id="massList" class="container-fluid">
-                            <div class="row" ng-repeat="item in vm.formData.mass | orderBy: 'name'">
-                                {{item.name}}
+                            <div class="row" ng-repeat="item in vm.formData.mass | orderBy: 'name'"
+                                 ng-hide="vm.massAddingNewItemsActive">
+                                <span ng-if="item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}]"
+                                      ng-click="vm.callAddNewMass(item.name)">
+                                    {{item.name}}
+                                </span>
+                                <span ng-if="!item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}]">
+                                    {{item.name}}
+                                </span>
                                 <a href="" ng-click="vm.deleteMassItem(item)">X</a>
+                            </div>
+                            <div class="row" ng-show="vm.massAddingNewItemsActive">
+                                <i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>
                             </div>
                         </div>
                     </div>
                     <div id="massAdd" class="col-xs-6">
-                        <input type="text" ng-model="vm.massFilter" placeholder="Filtr MASS" />
-                        <button class="btn submitButton" ng-click="vm.massFilter = ''">X</button>
-                        <button class="btn submitButton" ng-click="vm.callAddNewMass('')">Dodaj MASS*</button>
-                        <div class="container-fluid" style="height: 80px; overflow-y:scroll; width: 120px; margin-left: 0px;">
-                            <div class="row" ng-repeat="item in vm.massReferences | filter:vm.massFilter">
-                                <a href="" ng-click="vm.addMassItem(item)">{{item.name}}</a>
-                            </div>
+                        <div>
+                            <textarea style="width: 35%; height: 100px; float: left; resize: none;" ng-model="vm.massFilter" 
+                                      ng-keydown="vm.massTextareaEnter($event, vm.massFilter)"
+                                      placeholder="Referencje MASS*"></textarea>
+                            <button class="btn submitButton" style="float: left;" ng-click="vm.massFilter = ''">X</button>
                         </div>
                     </div>
                 </div>
@@ -139,9 +148,10 @@
                     </div>
                     <div class="col-xs-3">
                         <div id="m20vList" class="container-fluid">
-                            <div class="row" ng-repeat="item in vm.formData.m20v | orderBy: 'name'">
+                            <div class="row" ng-repeat="item in vm.formData.m20v | orderBy: 'name'"
+                                 ng-hide="vm.m20vAddingNewItemsActive">
                                 <span ng-if="item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}]"
-                                   ng-click="vm.callAddNewM20v(item.name)">
+                                      ng-click="vm.callAddNewM20v(item.name)">
                                     {{item.name}}
                                 </span>
                                 <span ng-if="!item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}]">
@@ -149,32 +159,17 @@
                                 </span>
                                 <a href="" ng-click="vm.deleteM20vItem(item)">X</a>
                             </div>
+                            <div class="row" ng-show="vm.m20vAddingNewItemsActive">
+                                <i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>
+                            </div>
                         </div>
                     </div>
-                    <div id="m20vAdd" class="col-xs-6">
-                        <!--<input type="text" ng-model="vm.m20vFilter" placeholder="Filtr M20V" />
-                        <button class="btn submitButton" ng-click="vm.m20vFilter = ''">X</button>
-                        <button class="btn submitButton" ng-click="vm.callAddNewM20v('')">Dodaj M20V*</button>
-                        <div class="container-fluid" style="height: 80px; overflow-y:scroll; width: 120px; margin-left: 0px;">
-                            <div class="row" ng-repeat="item in vm.m20vReferences | filter:vm.m20vFilter">
-                                <a href="" ng-click="vm.addM20vItem(item)">{{item.name}}</a>
-                            </div>
-                        </div>-->
+                    <div id="m20vAdd" class="col-xs-6">                        
                         <div>
-                            <textarea style="width: 30%; height: 100px; float: left; resize: none;" ng-model="vm.m20vFilter" ng-keydown="vm.callEv($event, vm.m20vFilter)"></textarea>
-                            <button class="btn submitButton" style="float: left;" ng-click="vm.m20vFilter = ''">X</button>
-                            <!--<div style="width: 100%; height: 100px;overflow-y: scroll;">
-                                <div ng-repeat="item in vm.testy">
-                                    <a href="" ng-if="item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}, {greenLight: item.refOkAvailable}]"
-                                               ng-click="vm.callAddNewM20v(item.name)">
-                                        {{item.name}}
-                                    </a>
-                                    <a href="" ng-if="!item.refOkNotAvailabel" ng-class="[{redLight: item.refNok}, {yellowLight: item.refOkNotAvailabel}, {greenLight: item.refOkAvailable}]">
-                                        {{item.name}}
-                                    </a>
-                                    <a href="" ng-click="vm.testy.splice($index, 1)">X</a>
-                                </div>
-                            </div>-->
+                            <textarea style="width: 35%; height: 100px; float: left; resize: none;" ng-model="vm.m20vFilter" 
+                                      ng-keydown="vm.m20vTextareaEnter($event, vm.m20vFilter)"
+                                      placeholder="Referencje M20V*"></textarea>
+                            <button class="btn submitButton" style="float: left;" ng-click="vm.m20vFilter = ''">X</button>                            
                         </div>
                     </div>
                 </div>

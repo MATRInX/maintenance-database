@@ -23,16 +23,17 @@
             status: '',
             numberoftoolings: 1
         }
-        vm.dataToEdit = {};
         vm.firstDataDownload = false;
         vm.toolingLocation = [];
         vm.toolingLocationFilter = '';
         vm.toolingProcess = [];
         vm.toolingProcessFilter = '';
         vm.massReferences = [];
+        vm.massAddingNewItemsActive = false;
         vm.selectedMass = '';
         vm.massFilter = '';
         vm.m20vReferences = [];
+        vm.m20vAddingNewItemsActive = false;
         vm.selectedM20v = '';
         vm.m20vFilter = '';        
         vm.modalType = '';
@@ -41,11 +42,9 @@
         vm.isToolNoEmpty = false;
         vm.isOldToolNoEmpty = false;
         vm.isClipboardEmpty = true;
-
-        vm.testowyString = '';
-        vm.testy = [];
-        vm.testAdd = m20vAddAndCheck;
-        vm.callEv = enterDown;
+        
+        vm.massTextareaEnter = massTextareaEnter;
+        vm.m20vTextareaEnter = m20vTextareaEnter;
         
         vm.getSelectData = getSelectData;
         vm.submitModal = submitModal;
@@ -59,115 +58,150 @@
         vm.pasteClipboard = pasteClipboard;
         vm.callAddNewMass = callAddNewMass;
         vm.callAddNewM20v = callAddNewM20v;
+        vm.setM20vWaiter = setM20vWaiter;
+        vm.clearM20vWaiter = clearM20vWaiter;
+        vm.setMassWaiter = setMassWaiter;
+        vm.clearMassWaiter = clearMassWaiter;
 
         vm.getSelectData(null);
 
         //$scope.$watch('vm.testowyString', testAdd);
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        function enterDown(event, text) {
-            if (event.keyCode == 13) {  // ENTER is pressed
+        function massTextareaEnter(event, text) {
+            if (event.keyCode == 13 && text !== '') {  // ENTER is pressed and text is not a empty string
                 event.preventDefault();
-                vm.getSelectData(null);
-                m20vAddAndCheck(text);
+                vm.setMassWaiter();
+                var addAndCheckNewMassItems = massAddAndCheck.bind(null, text);
+                vm.getSelectData(addAndCheckNewMassItems);
+                vm.massFilter = '';
+            }
+        }
+        function m20vTextareaEnter(event, text) {
+            if (event.keyCode == 13 && text !== '') {  // ENTER is pressed and text is not a empty string
+                event.preventDefault();
+                vm.setM20vWaiter();
+                var addAndCheckNewM20vItems = m20vAddAndCheck.bind(null, text);
+                vm.getSelectData(addAndCheckNewM20vItems);
                 vm.m20vFilter = '';
             }
         }
-        function m20vAddAndCheck(text) {
-            $log.log('addm20vref');
-            $log.log(text);
-            // Check if there is a lot o lines
-            var isDivider = text.search('\n');
+        function massAddAndCheck(text) {
             var textArray = [];
             var textToCheck = '';
-            var m20vString = '';
-            for (var i = 0; i < vm.m20vReferences.length; i++)
-                m20vString += vm.m20vReferences[i].name;
+            var dbArrayCheckString = '';
 
+            for (var i = 0; i < vm.massReferences.length; i++)
+                dbArrayCheckString += vm.massReferences[i].name;
+
+            // Check if there is a lot o lines
+            var isDivider = text.search('\n');
             if (isDivider >= 0) {
                 textArray = text.split('\n');
-                $log.log('tablica referencji')
             }
             else {
                 textToCheck = text;
-                $log.log('pojedynczy tekst');
             }
-            // regular expression to check if text is simmilar to reference value
-            var reg = "^(MS08|MP4A|M2GA|M20V|M20M|M20G|MP40|M5KA|M5EA|N20V|MK20V|M772)+\\w{5}$";
-            var regexp = new RegExp(reg, "i");
-            var tempArrayWithM20V = vm.formData.m20v;//JSON.parse(JSON.stringify(vm.formData.m20v));
-            $log.log(vm.formData.m20v);
-            $log.log(tempArrayWithM20V);
-            $log.log(vm.dataToEdit);
+            // regular expression to check if text is good reference type word
+            var regularExpressionForMass = "^(MASS|MAD0)+\\w{5}$";
+            var textCheckRegExp = new RegExp(regularExpressionForMass, "i");
+
             if (textArray.length > 0) {
-                // There is a lot of text fields
-                for (var i = 0; i < textArray.length; i++) {
-                    var regCheck = textArray[i].search(regexp);
-                    if (regCheck >= 0) {
-                        var regexp2 = new RegExp(textArray[i], "i");
-                        var regCheck2 = m20vString.search(regexp2);
-                        //$log.log(m20vString);
-                        //$log.log(regexp);
-                        //$log.log(regCheck2);
+                checkNewItemAndReturnUnique(textCheckRegExp, textArray, vm.formData.mass, dbArrayCheckString);
+            }
+            else {
+                checkNewItemAndReturnUnique(textCheckRegExp, textToCheck, vm.formData.mass, dbArrayCheckString);
+            }
+            // After last operation, waiter is not needed anymore
+            vm.clearMassWaiter();
+        }
+        function m20vAddAndCheck(text) {
+            var textArray = [];
+            var textToCheck = '';
+            var m20vString = '';
+
+            for (var i = 0; i < vm.m20vReferences.length; i++)
+                m20vString += vm.m20vReferences[i].name;
+
+            // Check if there is a lot o lines
+            var isDivider = text.search('\n');            
+            if (isDivider >= 0) {
+                textArray = text.split('\n');
+            }
+            else {
+                textToCheck = text;
+            }
+            // regular expression to check if text is good reference type word
+            var regularExpressionForM20v = "^(MS08|MP4A|M2GA|M20V|M20M|M20G|MP40|M5KA|M5EA|N20V|MK20V|M772)+\\w{5}$";
+            var textCheckRegExp = new RegExp(regularExpressionForM20v, "i");
+
+            if (textArray.length > 0) {
+                checkNewItemAndReturnUnique(textCheckRegExp, textArray, vm.formData.m20v, m20vString);
+            }
+            else {
+                checkNewItemAndReturnUnique(textCheckRegExp, textToCheck, vm.formData.m20v, m20vString);                
+            }    
+            // After last operation, waiter is not needed anymore
+            vm.clearM20vWaiter();
+        }
+        function checkNewItemAndReturnUnique(mainRegularExpression, itemForCheck, arrayToUpdate, dbUniqueArray) {
+            if (angular.isArray(itemForCheck)) {
+                for (var i = 0; i < itemForCheck.length; i++) {
+                    var singleItemCheck = itemForCheck[i].search(mainRegularExpression);
+                    if (singleItemCheck >= 0) {
+                        var regexp2 = new RegExp(itemForCheck[i], "i");
+                        var regCheck2 = dbUniqueArray.search(regexp2);
                         if (regCheck2 >= 0) {
-                            if (checkIsTextUnique(textArray[i], vm.formData.m20v))
-                                tempArrayWithM20V.push({ name: textArray[i].toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                            if (checkIsTextUniqueInArray(itemForCheck[i], arrayToUpdate))
+                                arrayToUpdate.push({ name: itemForCheck[i].toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
                         }
                         else {
-                            if (checkIsTextUnique(textArray[i], vm.formData.m20v))
-                                tempArrayWithM20V.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                            if (checkIsTextUniqueInArray(itemForCheck[i], arrayToUpdate))
+                                arrayToUpdate.push({ name: itemForCheck[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
                         }
-                        
+
                     }
                     else {
-                        if (checkIsTextUnique(textArray[i], vm.formData.m20v))
-                            tempArrayWithM20V.push({ name: textArray[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                        if (checkIsTextUniqueInArray(itemForCheck[i], arrayToUpdate))
+                            arrayToUpdate.push({ name: itemForCheck[i].toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
                     }
                 }
             }
             else {
-                // There is only one text
-                var regCheck = textToCheck.search(regexp);
-                if (regCheck >= 0) {
-                    // word is ok - good reference number
-                    var regexp2 = new RegExp(textToCheck, "i");
-                    var regCheck2 = m20vString.search(regexp2);
+                var singleItemCheck = itemForCheck.search(mainRegularExpression);
+                if (singleItemCheck >= 0) {
+                    var regexp2 = new RegExp(itemForCheck, "i");
+                    var regCheck2 = dbUniqueArray.search(regexp2);
                     if (regCheck2 >= 0) {
-                        if (checkIsTextUnique(textToCheck, vm.formData.m20v))
-                            tempArrayWithM20V.push({ name: textToCheck.toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
+                        if (checkIsTextUniqueInArray(itemForCheck, arrayToUpdate))
+                            arrayToUpdate.push({ name: itemForCheck.toUpperCase(), refOkAvailable: true, refOkNotAvailabel: false, refNok: false });
                     }
                     else {
-                        if (checkIsTextUnique(textToCheck, vm.formData.m20v))
-                            tempArrayWithM20V.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
+                        if (checkIsTextUniqueInArray(itemForCheck, arrayToUpdate))
+                            arrayToUpdate.push({ name: itemForCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: true, refNok: false });
                     }
-                    
+
                 }
                 else {
-                    if (checkIsTextUnique(textToCheck, vm.formData.m20v))
-                        tempArrayWithM20V.push({ name: textToCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
+                    if (checkIsTextUniqueInArray(itemForCheck, arrayToUpdate))
+                        arrayToUpdate.push({ name: itemForCheck.toUpperCase(), refOkAvailable: false, refOkNotAvailabel: false, refNok: true });
                 }
-            }
-            $log.log(tempArrayWithM20V);
-            vm.formData.m20v = [];
-            vm.formData.m20v = tempArrayWithM20V;
-            $log.log(vm.formData);
-            $log.log(vm.dataToEdit);
-            //$log.log(vm.testy);
-            function checkIsTextUnique(textToCheck, arrayToCheck) {
-                if (angular.isArray(arrayToCheck)) {
-                    for (var i = 0; i < arrayToCheck.length; i++) {
-                        var textToCheck1 = arrayToCheck[i].name.toUpperCase();
-                        var textToCheck2 = textToCheck.toUpperCase();
-                        $log.log(textToCheck1 + " " + textToCheck2);
-                        if (textToCheck1 == textToCheck2) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                    return true;
             }
         }
+        function checkIsTextUniqueInArray(textToCheck, arrayToCheck) {
+            if (angular.isArray(arrayToCheck)) {
+                for (var i = 0; i < arrayToCheck.length; i++) {
+                    var textToCheck1 = arrayToCheck[i].name.toUpperCase();
+                    var textToCheck2 = textToCheck.toUpperCase();
+                    if (textToCheck1 == textToCheck2) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return true;
+        }
+
         function getSelectData(anotherPromise) {
             toolingsHelper.getModalLists().then(getModalListsSuccess).then(anotherPromise);
             vm.modalType = dataItems.type;
@@ -176,18 +210,15 @@
             //vm.massReferences = dataItems.lists.mass;
             //vm.m20vReferences = dataItems.lists.m20v;
             if ((vm.modalType == "edition") && (!vm.firstDataDownload)) {
-                vm.dataToEdit = JSON.parse(JSON.stringify(dataItems.data));
+                vm.formData = JSON.parse(JSON.stringify(dataItems.data));
                 // For form field I have to clear hash number from '#' sign
-                //vm.formData = dataItems.data;
-                //vm.formData.hashNo = clearHashNumber(vm.formData.hashNo);
-                vm.dataToEdit.hashNo = clearHashNumber(vm.dataToEdit.hashNo);
-                vm.formData = vm.dataToEdit;//JSON.parse(JSON.stringify(dataToEdit));
+                vm.formData.hashNo = clearHashNumber(vm.formData.hashNo);
                 checkToolNumber();
                 vm.firstDataDownload = true;
             }
             if (dataItems.clipboard !== null) {
                 vm.isClipboardEmpty = false;
-            }            
+            }
             // Part necessary if data for selects will be downloaded from database after modal is open
             function getModalListsSuccess(response) {
                 vm.toolingLocation = response.locations;
@@ -217,17 +248,23 @@
                 if (vm.isTypedHashUnique) {
                     // Deep clone of form data to not have any problems with not number hash number
                     var returnData = JSON.parse(JSON.stringify(vm.formData));
+                    var deleteData = [];
                     returnData.hashNo = "#" + returnData.hashNo;
-                    checkM20vReferences(returnData.m20v);
+                    checkReferences(returnData.m20v, deleteData);
+                    checkReferences(returnData.mass, deleteData);
+                    returnData.deleteInfo = deleteData;
                     $uibModalInstance.close(returnData);
                 }
-                function checkM20vReferences(arrayWithData) {
+                function checkReferences(arrayWithData, deleteData) {
                     // delete wrong references or references which are not in database
-                    for (var i = 0; i < arrayWithData.length; i++) {
-                        if (arrayWithData[i].refNok)
+                    var arraySize = arrayWithData.length;
+                    for (var i = 0; i < arraySize; i++) {                        
+                        if (arrayWithData[i].refNok || arrayWithData[i].refOkNotAvailabel) {
+                            deleteData.push(arrayWithData[i].name);
                             arrayWithData.splice(i, 1);
-                        if (arrayWithData[i].refOkNotAvailabel)
-                            arrayWithData.splice(i, 1);
+                            i--;
+                            arraySize--;
+                        }                            
                     }
                 }
             }
@@ -328,11 +365,11 @@
             vm.formData.mass = dataItems.clipboard.mass;
             vm.formData.m20v = dataItems.clipboard.m20v;
         }
-        function callAddNewMass() {
+        function callAddNewMass(tempReference) {
             var dataItems = function () {
                 var returnValue = {
                     textToDisplay: 'Referencja MASS*',
-                    tempText: ''
+                    tempText: tempReference
                 }
                 return returnValue;
             }
@@ -352,6 +389,27 @@
 
             function getMassSuccess(response) {
                 vm.massReferences = response;
+                checkAddedMassReferences();
+            }
+        }
+        function checkAddedMassReferences() {
+            getSelectData(updateMassReferences);
+            function updateMassReferences() {
+                var massString = '';
+                for (var i = 0; i < vm.massReferences.length; i++)
+                    massString += vm.massReferences[i].name;
+
+                for (var i = 0; i < vm.formData.mass.length; i++) {
+                    if (vm.formData.mass[i].refOkNotAvailabel) {
+                        var regexp2 = new RegExp(vm.formData.mass[i].name, "i");
+                        var regCheck2 = massString.search(regexp2);
+                        if (regCheck2 >= 0) {
+                            // Reference is added I can change status
+                            vm.formData.mass[i].refOkNotAvailabel = false;
+                            vm.formData.mass[i].refOkAvailable = true;
+                        }
+                    }
+                }
             }
         }
         function callAddNewM20v(tempReference) {
@@ -391,7 +449,7 @@
 
                 for (var i = 0; i < vm.formData.m20v.length; i++) {
                     if (vm.formData.m20v[i].refOkNotAvailabel) {
-                        var regexp2 = new RegExp(vm.formData.m20v[i], "i");
+                        var regexp2 = new RegExp(vm.formData.m20v[i].name, "i");
                         var regCheck2 = m20vString.search(regexp2);
                         if (regCheck2 >= 0) {
                             // Reference is added I can change status
@@ -401,6 +459,18 @@
                     }                    
                 }
             }
+        }
+        function setM20vWaiter() {
+            vm.m20vAddingNewItemsActive = true;
+        }
+        function clearM20vWaiter() {
+            vm.m20vAddingNewItemsActive = false;
+        }
+        function setMassWaiter() {
+            vm.massAddingNewItemsActive = true;
+        }
+        function clearMassWaiter() {
+            vm.massAddingNewItemsActive = false;
         }
     }
 })();

@@ -8,6 +8,7 @@
     function infoModalController($uibModalInstance, dataItems, $log, $timeout) {
         var vm = this;
         vm.textToDisplay = dataItems.text;
+        vm.additionalText = dataItems.additionalText;
 
         vm.submitModal = submitModal;
         vm.closeModal = closeModal;
