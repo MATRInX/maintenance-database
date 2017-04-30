@@ -9,6 +9,8 @@
 
     function toolingsHelper($http, $log, $q) {
         var toolingsData = [];
+        var m20vData = [];
+        var m20vDataLoaded = false;
         var service = {
             // variables
 
@@ -19,6 +21,8 @@
             getMassReferences: getMassReferences,
             getM20vReferences: getM20vReferences,
             getModalLists: getModalLists,
+            getM20VListWithRunner: getM20VListWithRunner,
+            isM20vListWithRunnerLoaded: isM20vListWithRunnerLoaded,
             checkHashId: checkHashId,
             addTooling: addTooling,
             editTooling: editTooling,
@@ -153,6 +157,41 @@
                 var lists = response.data.modalLists;
                 deffered.resolve(lists);
             }
+        }
+        function getM20VListWithRunner() {
+            $log.log('getM20VListWithRunner poczatek');
+            if (!m20vDataLoaded) {
+                var deffered = $q.defer();
+                $http({
+                    method: "POST",
+                    url: "models/toolingsModel.php",
+                    data: {
+                        'query': 'getM20VListWithRunner',
+                        'data': [{ 'key': '', 'value': '' }]
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .then(getM20VListWithRunnerFromDB);
+                $log.log('getM20VListWithRunner koniec');
+                return deffered.promise;
+            }
+            else {
+                return m20vData;
+            }
+            ////////////////////////////////////////////////////////////////////////////////
+
+            function getM20VListWithRunnerFromDB(response) {
+                $log.log('getM20VListWithRunner response i resolve');
+                $log.log(response);
+                var m20vRunnerList = response.data.m20vRunnerList;
+                m20vData = m20vRunnerList;
+                m20vDataLoaded = true;
+                $log.log(m20vRunnerList);
+                deffered.resolve(m20vRunnerList);
+            }
+        }
+        function isM20vListWithRunnerLoaded() {
+            return m20vDataLoaded;
         }
         function checkHashId(idToCheck) {
             var deffered = $q.defer();

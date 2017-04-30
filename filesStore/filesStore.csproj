@@ -92,6 +92,10 @@
     <Content Include="layout\inBuildContent.html" />
     <Content Include="layout\loginContent.html" />
     <Content Include="layout\mainContent.html" />
+    <Content Include="layout\references\referenceItem.controller.js" />
+    <Content Include="layout\references\referenceItem.html" />
+    <Content Include="layout\references\referenceList.controller.js" />
+    <Content Include="layout\references\referenceList.html" />
     <Content Include="layout\testContent.html" />
     <Content Include="layout\files\documents.controller.js" />
     <Content Include="layout\files\instructions.controller.js" />
@@ -106,6 +110,7 @@
     <Content Include="layout\toolings\toolingsList.controller.js" />
     <Content Include="layout\toolings\toolingsList.html" />
     <Content Include="layout\toolings\toolingsMainContent.html" />
+    <Content Include="models\Reference.php" />
     <Content Include="models\SimpleObj.php" />
     <Content Include="models\Tooling.php" />
     <Content Include="models\ToolingData.php" />

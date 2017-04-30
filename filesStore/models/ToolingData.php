@@ -275,6 +275,41 @@ class ToolingData{
         $this->toolingStatus = $returnValue;
     }
 
+    public function getM20VListWithRunner(){
+        //$query = "SELECT DISTINCT m20vref, m20v "
+        //        ."FROM toolshighrunner ";
+        $query = "SELECT DISTINCT m20vref as refName, "
+                ."(SELECT SUM(total) FROM toolshighrunner WHERE m20vref=refName ) as volume, "
+                ."m20v as flow, "
+                ."(SELECT COUNT(toolstoolinglist.hashId) FROM "
+                    ."toolstoolinglist, toolsm20vconnection, toolsm20vref "
+                    ."WHERE toolsm20vref.name=refName AND toolstoolinglist.hashId=toolsm20vconnection.hashId "
+                    ."AND toolsm20vconnection.m20vId=toolsm20vref.m20vId ) as toolingsCount, "
+                ."(SELECT COUNT(DISTINCT massref) FROM toolshighrunner WHERE m20vref=refName ) as refeerence "
+                ."FROM toolshighrunner ORDER by volume DESC";
+        $result = $this->sendQuery($query);
+        if($result !== NULL){
+            if($result !== true){
+                $i = 0;
+                while($row = mysqli_fetch_assoc($result)){                    
+                    //$referenceName = $row['m20vref'];
+                    //$m20v = new Reference($this->conn, $referenceName);
+                    //$returnValue[$i] = $m20v->getCompleteReference();
+                    $returnValue[$i]['refName'] = $row['refName'];
+                    $returnValue[$i]['volume'] = intval($row['volume']);
+                    $returnValue[$i]['volType'] = '';
+                    $returnValue[$i]['flow'] = $row['flow'];
+                    $returnValue[$i]['toolingsCount'] = intval($row['toolingsCount']);
+                    $returnValue[$i]['references'] = intval($row['refeerence']);
+                    $returnValue[$i]['toolings'] = [];
+                    $returnValue[$i]['isCollapsed'] = true;
+                    $i++;
+                }
+            }            
+        }
+        return $returnValue;
+    }
+
     public function getLocationWithId($requestId){
         $returnValue = '';
         //echo 'request id';

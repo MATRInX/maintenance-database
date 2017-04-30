@@ -1,0 +1,77 @@
+﻿<div>
+    <div class="mainMenuContainer floatFix">
+        <ng-include src="'layout/main.menu.html'"></ng-include>
+    </div>
+    <div style="width: 90%; margin-left: 5%;" class="container-fluid">
+        <div ng-repeat="item in vm.m20v | orderBy: '-volume'" ng-show="vm.m20vDataComplete">
+            <div class="toolingHeading row" ng-click="item.isCollapsed = !item.isCollapsed">
+                <div class="col-xs-1">
+                    Top {{($index + 1)}}
+                </div>
+                <div class="col-xs-1">
+                    {{item.refName}}
+                </div>
+                <div class="col-xs-2">
+                    {{item.volume}} szt.
+                </div>
+                <div class="col-xs-2">
+                    Liczba ref BA: {{item.references}}
+                </div>
+                <div class="col-xs-2">
+                    Flow: {{item.flow}}
+                </div>
+                <div class="col-xs-2">
+                    Liczba narzędzi: {{item.toolingsCount}}
+                </div>
+            </div>
+            <div class="row" uib-collapse="item.isCollapsed">
+                <div class="container-fluid collapseContainer">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            Referencja
+                        </div>
+                        <div class="col-xs-10">
+                            {{item.refName}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            Wolumen
+                        </div>
+                        <div class="col-xs-10">
+                            {{item.volume}} szt.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            Liczba ref BA:
+                        </div>
+                        <div class="col-xs-10">
+                            {{item.references}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            Flow:
+                        </div>
+                        <div class="col-xs-10">
+                            {{item.flow}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            Liczba narzędzi:
+                        </div>
+                        <div class="col-xs-10">
+                            {{item.toolingsCount}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="toolingHeading row" ng-hide="vm.m20vDataComplete">
+            <i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>
+        </div>
+    </div>
+</div>

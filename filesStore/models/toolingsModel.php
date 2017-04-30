@@ -57,6 +57,9 @@ else{
         case 'getModalLists':
             $returnValue['modalLists'] = $toolObj->getModalLists();
             break;
+        case 'getM20VListWithRunner':
+            $returnValue['m20vRunnerList'] = $toolObj->getM20VListWithRunner();
+            break;
         case 'addTooling':
             // Clear request data
             $requestData['hashNo'] = $safeObj->clear_text($dirtyRequestData->hashNo);

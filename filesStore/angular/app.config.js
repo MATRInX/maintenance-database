@@ -87,8 +87,8 @@
         // MASS references
         var massPath = '/' + MAIN_MENU.MENU[0].menu[3].path;
         $routeProvider.when(massPath, {
-            templateUrl: 'layout/inBuildContent.html',
-            controller: 'inBuildController',
+            templateUrl: 'layout/references/referenceList.html',
+            controller: 'referenceListController',
             controllerAs: 'vm',
             resolve: {
                 logged: getloggedStatus,
@@ -98,8 +98,8 @@
         // M20V references
         var m20vPath = '/' + MAIN_MENU.MENU[0].menu[4].path;
         $routeProvider.when(m20vPath, {
-            templateUrl: 'layout/inBuildContent.html',
-            controller: 'inBuildController',
+            templateUrl: 'layout/references/referenceList.html',
+            controller: 'referenceListController',
             controllerAs: 'vm',
             resolve: {
                 logged: getloggedStatus,

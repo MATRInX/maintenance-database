@@ -1,5 +1,5 @@
 ﻿<div class="repairHeading row" ng-click="repairItem.isCollapsed = !repairItem.isCollapsed"
-     ng-class="{lightColor: !repairItem.isCollapsed}">
+     ng-class="[{redLight: repairItem.status === 'W trakcie naprawy'}, {greenLight: repairItem.status === 'Naprawa zakończona'},{lightColor: !repairItem.isCollapsed}]">
     <div class="col-xs-1">ID: {{repairItem.id}}</div>
     <div class="col-xs-5 longTextField">Opis uszkodzenia: {{repairItem.failuredesc}}</div>
     <div class="col-xs-3" ng-if="repairItem.status==='W trakcie naprawy'">Data naprawy(szacowana): {{repairItem.estimatedRepairDate | date: 'yyyy-MM-dd'}}</div>
