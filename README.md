@@ -21,7 +21,7 @@ Then just copy all files to server and start the app.
 ## Usages
 
 This app is fully working network app with full functionality to collect data about your machine park in your company. This is very old app and their analyze is not so easy because of it backend and old-fashioned character.
-If you want to use it it's not a problem I can show you how to use it on your local network :simple_smile:
+If you want to use it it's not a problem I can show you how to use it on your local network :smile:
 
 ## Pros and cons
 
