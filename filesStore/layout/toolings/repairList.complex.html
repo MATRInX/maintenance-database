@@ -1,0 +1,11 @@
+﻿<div>
+    <div class="mainMenuContainer floatFix">
+        <ng-include src="'layout/main.menu.html'"></ng-include>
+    </div>
+    <div class="repairListMainContainer">
+        <button ng-click="vm.addRepair(null,'add')">Dodaj naprawę</button>
+        <div class="repairListContent container-fluid" ng-repeat="repairItem in vm.repairList | orderBy: '-id'">
+            <ng-include src="'layout/toolings/repairListItem.complex.html'"></ng-include>
+        </div>        
+    </div>
+</div>

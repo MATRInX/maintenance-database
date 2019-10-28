@@ -1,0 +1,169 @@
+﻿<div class="toolingModal">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Dodanie/Edycja narzędzia</h3>
+        <button ng-click="vm.pasteClipboard()" ng-hide="vm.isClipboardEmpty">Wklej schowek</button>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+        <form name="toolEditForm">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Hash numer:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="number" id="hashNo" name="hashNo" ng-model="vm.formData.hashNo" required
+                               ng-change="vm.clearHashNumberStatus()" ng-readonly="vm.modalType == 'edition'" 
+                               placeholder="Numer #"/> <b>*</b>
+                        <div ng-show="toolEditForm.hashNo.$invalid && toolEditForm.hashNo.$dirty">
+                            <span ng-show="toolEditForm.hashNo.$error.required">
+                                Proszę wpisać numer # dla narzędzia
+                            </span>
+                        </div>
+                        <div ng-hide="vm.isTypedHashUnique">
+                            <span>
+                                Numer narzędzia nie jest unikalny - zmień numer #
+                            </span>
+                        </div>
+                        <div ng-hide="vm.isHashNumber">
+                            <span>
+                                Numer narzędzia musi być liczbą - popraw numer #
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Numer narzędzia:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="toolNo" name="toolNo" ng-model="vm.formData.toolNo" 
+                               placeholder="Numer narzędzia"/> <b>**</b>
+                        <div ng-show="vm.isToolNoEmpty == true && vm.isOldToolNoEmpty == true">
+                            <span ng-show="vm.isToolNoEmpty == true && vm.isOldToolNoEmpty == true">
+                                Proszę wpisać przynajmniej jeden numer narzędzia, nowy lub stary.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Stary numer narzędzia:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="oldToolNo" name="oldToolNo" ng-model="vm.formData.oldToolNo" 
+                               placeholder="Stary numer narzędzia"/> <b>**</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Liczba narzędzi tego typu:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="number" id="numberoftoolings" name="numberoftoolings" ng-model="vm.formData.numberoftoolings" 
+                               placeholder="L. narz."/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Typ procesu/maszyna:
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="location" ng-model="vm.formData.process">
+                            <option value=""></option>
+                            <option ng-repeat="item in vm.toolingProcess | filter:vm.toolingProcessFilter track by item.name" value="{{item.name}}">{{item.name}}</option>
+                        </select>
+                        <input type="text" ng-model="vm.toolingProcessFilter" placeholder="Filtr procesu" />
+                        <button class="btn submitButton" ng-click="vm.toolingProcessFilter = ''">X</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Lokalizacja:
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="location" ng-model="vm.formData.location">
+                            <option value=""></option>
+                            <option ng-repeat="item in vm.toolingLocation | filter:vm.toolingLocationFilter track by item.name" value="{{item.name}}">{{item.name}}</option>
+                        </select>
+                        <input type="text" ng-model="vm.toolingLocationFilter" placeholder="Filtr lokalizacji" />
+                        <button class="btn submitButton" ng-click="vm.toolingLocationFilter = ''">X</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Ścieżka do folderu:
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" id="path" name="path" ng-model="vm.formData.path" 
+                               placeholder="Ścieżka do folderu narzędzia"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Uwagi:
+                    </div>
+                    <div class="col-xs-9">
+                        <textarea id="attention" name="attention" ng-model="vm.formData.attention"
+                                  placeholder="Uwagi związane z narzędziem"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Referencje MASS*:<br />
+                        ({{vm.formData.mass.length}} ref.)
+                    </div>
+                    <div class="col-xs-3">
+                        <div id="massList" class="container-fluid">
+                            <div class="row" ng-repeat="item in vm.formData.mass | orderBy: 'name'">
+                                {{item.name}}
+                                <a href="" ng-click="vm.deleteMassItem(item)">X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="massAdd" class="col-xs-6">
+                        <input type="text" ng-model="vm.massFilter" placeholder="Filtr MASS" />
+                        <button class="btn submitButton" ng-click="vm.massFilter = ''">X</button>
+                        <button class="btn submitButton" ng-click="vm.callAddNewMass()">Dodaj MASS*</button>
+                        <div class="container-fluid" style="height: 80px; overflow-y:scroll; width: 120px; margin-left: 0px;">
+                            <div class="row" ng-repeat="item in vm.massReferences | filter:vm.massFilter">
+                                <a href="" ng-click="vm.addMassItem(item)">{{item.name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 formFieldLabel">
+                        Referencje M20V*:<br />
+                        ({{vm.formData.m20v.length}} ref.)
+                    </div>
+                    <div class="col-xs-3">
+                        <div id="m20vList" class="container-fluid">
+                            <div class="row" ng-repeat="item in vm.formData.m20v | orderBy: 'name'">
+                                {{item.name}}
+                                <a href="" ng-click="vm.deleteM20vItem(item)">X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m20vAdd" class="col-xs-6">
+                        <input type="text" ng-model="vm.m20vFilter" placeholder="Filtr M20V" />
+                        <button class="btn submitButton" ng-click="vm.m20vFilter = ''">X</button>
+                        <button class="btn submitButton" ng-click="vm.callAddNewM20v()">Dodaj M20V*</button>
+                        <div class="container-fluid" style="height: 80px; overflow-y:scroll; width: 120px; margin-left: 0px;">
+                            <div class="row" ng-repeat="item in vm.m20vReferences | filter:vm.m20vFilter">
+                                <a href="" ng-click="vm.addM20vItem(item)">{{item.name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <span style="float: left;">* - Pole jest wymagane</span><br />
+        <span style="float: left;">** - Przynajmniej jedno z pól jest wymagane</span>
+        <button class="btn btn-primary" type="button" ng-click="vm.submitModal()">Zapisz narzędzie</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.closeModal()">Anuluj</button>
+    </div>
+</div>

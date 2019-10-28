@@ -1,0 +1,104 @@
+﻿<div class="toolingHeading row" ng-click="item.isCollapsed = !item.isCollapsed"
+     ng-class="{lightColor: !item.isCollapsed}">
+    <div class="col-xs-1">Hash:</div>
+    <div class="col-xs-1"><b>{{item.hashNo}}</b></div>
+    <div class="col-xs-2" ng-show="item.toolNo">Nr narzedzia:</div>
+    <div class="col-xs-2 toolNumber" ng-show="item.toolNo"><b>{{item.toolNo}}</b></div>
+    <div class="col-xs-2" ng-show="!item.toolNo && item.oldToolNo">Nr narzedzia (stary):</div>
+    <div class="col-xs-2 toolNumber" ng-show="!item.toolNo && item.oldToolNo"><b>{{item.oldToolNo}}</b></div>
+    <div class="col-xs-1">Lokalizacja:</div>
+    <div class="col-xs-2 toolNumber"><b>{{item.location || "Nieznana"}}</b></div>
+    <div class="col-xs-2">Liczba wymag. narzędzi:</div>
+    <div class="col-xs-1"><b>{{item.numberoftoolings}}</b></div>
+</div>
+<div class="toolingContent row" uib-collapse="item.isCollapsed" ng-class="{lighterColor: !item.isCollapsed}">
+
+    <div class="container-fluid collapseContainer">
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="btn submitButton" ng-click="vm.modalCall('edition', item)" ng-show="vm.fullEditor(vm.userRight)">Edytuj</button>
+                <button class="btn submitButton" ng-click="vm.deleteTooling(item.hashNo)" ng-show="vm.fullEditor(vm.userRight)">Usuń</button>
+                <button class="btn submitButton" ng-click="vm.callAddRepairModal(item, 'add')" ng-show="vm.simpleEditor(vm.userRight) && item.status == 'Dostępne'">Narzędzie do naprawy</button>                
+                <button class="btn submitButton" ng-click="vm.copyData(item)" ng-show="vm.fullEditor(vm.userRight)">Kopiuj</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 folderPath">
+                <label for="status">Status narzędzia</label>
+                <input type="text" name="status" ng-model="item.status" />
+            </div>
+        </div>
+        <div class="row" ng-if="vm.checkIsEmptyField(item.toolNo)">
+            <div class="col-xs-12 folderPath">
+                <label for="toolNo">Nr narzędzia</label>
+                <input type="text" name="toolNo" ng-model="item.toolNo" readonly />
+            </div>
+        </div>
+        <div class="row" ng-if="vm.checkIsEmptyField(item.oldToolNo)">
+            <div class="col-xs-12 folderPath">
+                <label for="oldToolNo">Stary nr narzędzia</label>
+                <input type="text" name="oldToolNo" ng-model="item.oldToolNo" readonly />
+            </div>
+        </div>
+        <div class="row" ng-if="vm.checkIsEmptyField(item.process)">
+            <div class="col-xs-12 folderPath">
+                <label for="process">Proces</label>
+                <input type="text" name="process" ng-model="item.process" readonly />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 folderPath" ng-if="vm.checkIsEmptyField(item.location)">
+                <label for="location">Lokalizacja</label>
+                <input type="text" name="location" ng-model="item.location" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 folderPath">
+                <label for="folderPath">Ścieżka do folderu</label>
+                <input type="text" name="folderPath" ng-model="item.path" readonly />
+            </div>
+        </div>
+        <div class="row" ng-if="vm.checkIsEmptyField(item.attention)">
+            <div class="col-xs-12 folderPath">
+                <label for="attention">Uwagi na temat narzędzia</label>
+                <textarea name="attention" ng-model="item.attention" readonly></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 folderPath">
+                REFERENCJE <b>MASS* - {{item.mass.length}} szt.</b><br />
+                Suma wolumenu: <b>{{item.massVolumeSum}} szt.</b><br />
+                Typ HighRunnera: <span uib-tooltip-html="vm.tooltip"  tooltip-popup-delay='1000'><b>{{item.massRunner}}</b></span>
+            </div>
+            <div class="col-xs-3 folderPath">
+                REFERENCJE <b>M20V* - {{item.m20v.length}} szt.</b><br />
+                Suma wolumenu: <b>{{item.m20vVolumeSum}} szt.</b><br />
+                Typ HighRunnera: <span uib-tooltip-html="vm.tooltip"  tooltip-popup-delay='1000'><b>{{item.m20vRunner}}</b></span>
+</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="folderPath mass">
+                    <div ng-repeat="refBa in item.mass">{{refBa.name + " - " + refBa.volume}}</div>
+                </div>
+            </div>
+            <div class="col-xs-1 folderPath"></div>
+            <div class="col-xs-2">
+                <div class="folderPath mass">
+                    <div ng-repeat="refFa in item.m20v">{{refFa.name + " - " + refFa.volume}}</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <ng-include src="'layout/toolings/repairList.simple.html'"></ng-include>
+        </div>
+
+        <!--Part for putting tooling image - to be done later-->
+        <!--<div class="row">
+            <div class="col-xs-3">
+                <img src="" height="100" width="100" alt="{{item.toolNo}} - {{item.hashNo}}" class="obraz" />
+            </div>
+        </div>-->
+    </div>
+</div>

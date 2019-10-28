@@ -1,0 +1,92 @@
+﻿<div class="repairHeading row" ng-click="repairItem.isCollapsed = !repairItem.isCollapsed"
+     ng-class="{lightColor: !repairItem.isCollapsed}">
+    <div class="col-xs-1">ID: {{repairItem.id}}</div>
+    <div class="col-xs-5 longTextField">Opis uszkodzenia: {{repairItem.failuredesc}}</div>
+    <div class="col-xs-3" ng-if="repairItem.status==='W trakcie naprawy'">Data naprawy(szacowana): {{repairItem.estimatedRepairDate | date: 'yyyy-MM-dd'}}</div>
+    <div class="col-xs-3" ng-if="repairItem.status!=='W trakcie naprawy'">Data naprawy: {{repairItem.repairDate | date: 'yyyy-MM-dd'}}</div>
+    <div class="col-xs-3">Status: {{repairItem.status}}</div>
+</div>
+<div class="repairContent row" uib-collapse="repairItem.isCollapsed">
+    <div class="repairDetailContent container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <span ng-show="repairItem.status !== 'Naprawa zakończona - odebrana'">Możliwe działania</span>
+                <button ng-click="vm.editRepair(repairItem, 'edition')" ng-show="repairItem.status !== 'Naprawa zakończona - odebrana'">Edytuj naprawę</button>
+                <button ng-click="vm.finishRepair(repairItem)" ng-show="repairItem.status === 'W trakcie naprawy'">Naprawa części</button>
+                <button ng-click="vm.pickupRepair(repairItem)" ng-show="repairItem.status === 'Naprawa zakończona'">Odebranie części</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Numer ID</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.id}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Opis części</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.partdesc}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Obszar i maszyna</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.machineArea + " - " + repairItem.machineId}}</span>
+            </div>
+        </div>
+        <div class="row" ng-if="repairItem.hashId !== ''">
+            <div class="col-xs-2">Numer Hash</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.hashId}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Opis uszkodzenia</div>
+            <div class="col-xs-10">
+                <textarea ng-model="repiarItem.failuredesc" readonly></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Opis naprawy</div>
+            <div class="col-xs-10">
+                <textarea ng-model="repiarItem.repairdesc" readonly></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Data uszkodzenia</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.breakdownDate}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Data naprawy (szacowana)</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.estimatedRepairDate}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Data naprawy</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.repairDate | date: 'yyyy-MM-dd'}}</span>
+            </div>
+        </div>
+        <div class="row" > <!--ng-if="{{repairItem.pickupDate}} !== null"-->
+            <div class="col-xs-2">Data odebrania</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.pickupDate}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Status naprawy</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.status}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">Ostatnia edycja</div>
+            <div class="col-xs-10">
+                <span>{{repairItem.lastedit + " - " + repairItem.lastEditor}}</span>
+            </div>
+        </div>
+    </div>
+</div>

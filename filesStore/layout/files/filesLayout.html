@@ -1,0 +1,83 @@
+﻿<div class="contentContainer">    
+        <uib-tabset active="active">
+            <uib-tab index="0" heading="Formularze" ng-if="vm.ctrlType == 'documents'">
+                <!--------------------------------------------------------------------------->
+                <!-- FORMS -->
+                <!--------------------------------------------------------------------------->
+                <div>
+                    <input type="text" ng-model="vm.formsFilter" />
+                </div>
+                <div class="protocolMainContainer container-fluid" ng-repeat="item in vm.formsData | filter: vm.formsFilter"
+                     ng-if="vm.formsData.length > 0">
+                    <ng-include src="'layout/files/documentsContent.html'"></ng-include>
+                </div>
+                <div ng-if="vm.formsData.length == 0">
+                    Brak danych do wyświetlenia
+                    <a href="#">Link testowy</a>
+                </div>
+            </uib-tab>
+            <!--------------------------------------------------------------------------->
+            <!-- PROTOCOLS -->
+            <!--------------------------------------------------------------------------->
+            <uib-tab index="1" heading="Protokoły" ng-if="vm.ctrlType == 'documents'">
+                <div class="documentsControlMenu">
+                    <ul class="floatFix">
+                        <li><a href="#" ng-click="vm.call('tescik')">Dodaj plik</a></li>
+                        <li><a href="#" ng-click="vm.showItems(vm.protocolsData)">Rozwiń wszystkie pliki</a></li>
+                        <li><a href="#" ng-click="vm.hideItems(vm.protocolsData)">Zwiń wszystkie pliki</a></li>
+                        <li><input type="text" ng-model="vm.protocolsFilter" placeholder="Filtr plików..."/></li>
+                        <li><a href="#" ng-click="vm.clearFilter('protocols')">Wyczyść filtr</a></li>
+                    </ul>                    
+                </div>                
+                <div class="protocolMainContainer container-fluid" ng-repeat="item in vm.protocolsData | filter: vm.protocolsFilter"
+                     ng-if="vm.protocolsData.length > 0">
+                    <ng-include src="'layout/files/documentsContent.html'"></ng-include>
+                </div>
+                <div ng-if="vm.protocolsData.length == 0">
+                    Brak danych do wyświetlenia
+                </div>
+            </uib-tab>
+            <!--------------------------------------------------------------------------->
+            <!-- LISTS -->
+            <!--------------------------------------------------------------------------->
+            <uib-tab index="2" heading="Listy" ng-if="vm.ctrlType == 'documents'">
+                <div>
+                    <input type="text" ng-model="vm.listsFilter" />
+                </div>
+                <div class="protocolMainContainer container-fluid" ng-repeat="item in vm.listsData | filter: vm.listsFilter"
+                     ng-if="vm.listsData.length > 0">
+                    <ng-include src="'layout/files/documentsContent.html'"></ng-include>
+                </div>
+                <div ng-if="vm.listsData.length == 0">
+                    Brak danych do wyświetlenia
+                </div>
+            </uib-tab>
+            <!--------------------------------------------------------------------------->
+            <!-- INSTRUCTIONS -->
+            <!--------------------------------------------------------------------------->
+            <uib-tab index="3" heading="Instrukcje" ng-if="vm.ctrlType == 'instructions'">
+                Instrukcje
+            </uib-tab>
+            <!--------------------------------------------------------------------------->
+            <!-- TPM 0 -->
+            <!--------------------------------------------------------------------------->
+            <uib-tab index="4" heading="TPM 0" ng-if="vm.ctrlType == 'tpm'">
+                TPM 0
+            </uib-tab>
+            <!--------------------------------------------------------------------------->
+            <!-- TPM 1 -->
+            <!--------------------------------------------------------------------------->
+            <uib-tab index="5" heading="TPM 1" ng-if="vm.ctrlType == 'tpm'">
+                TPM 1
+            </uib-tab>
+            <!--------------------------------------------------------------------------->
+            <!-- TPM 2 -->
+            <!--------------------------------------------------------------------------->
+            <uib-tab index="6" heading="TPM 2" ng-if="vm.ctrlType == 'tpm'">
+                TPM 2
+            </uib-tab>
+
+
+        </uib-tabset>
+    
+</div>

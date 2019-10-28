@@ -1,0 +1,591 @@
+﻿body {
+}
+/* Colors */
+@mainLightColor: #FFE100;
+@mainLighterColor: rgb(255, 235, 121);
+@mainDarkColor: #000000;
+@mainBackgroundColor: #ffffff;
+/* Sizes - general */
+@smallFontSize: 12px;
+@normalFontSize: 14px;
+/* Heights - general */
+@inputHeight: 26px;
+@mainMenuHeight: 80px;
+/* Paddings, margins etsc - general*/
+@inputPadding: 3px 6px;
+@loginInputsMargin: (0.11 * @mainMenuHeight);
+@loginButtonMargin: (@mainMenuHeight - @inputHeight - @loginInputsMargin) / 2;
+@logoutButtonMargin: (@mainMenuHeight - @inputHeight) / 2;
+
+/* Mixins */
+.login-btn(@marginTop) {
+    margin-top: @marginTop;
+    line-height: @normalFontSize;
+}
+.main-menu-hide(){
+    padding: 0px;
+    height: 0px;
+    opacity: 0;
+}
+.main-menu-show(){
+    height: @inputHeight;
+    opacity: 1;
+}
+.animation(@seconds){
+    transition: all @seconds ease-in-out;
+    -webkit-transition: all @seconds ease-in-out;
+    -moz-transition: all @seconds ease-in-out;
+    -ms-transition: all @seconds ease-in-out;
+}
+.sideMargin(@width){
+    margin-left: @width;
+    margin-right: @width;
+}
+.sidePadding(@width){
+    padding-left: @width;
+    padding-right: @width;
+}
+.elipsis(){
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Classes*/
+
+.mainMenuContainer{
+    background-color: @mainDarkColor;
+    color: @mainLightColor;
+    height: @mainMenuHeight;
+}
+
+.loggedUserMainMenuContainer{
+    float: left;
+    position: absolute;
+    .menu{        
+        z-index: 15;
+        position: relative;
+        .mainMenu > li{
+            float: left;            
+            margin-right: 10px;
+            list-style-type: none;
+            text-decoration: none;            
+            width: 180px;     
+            position: relative;
+            &:hover ul, &:hover ul > li{
+                .main-menu-show();
+            }
+            &:hover ul > li > a{
+                .main-menu-show();
+                padding: @inputPadding;
+            }
+            > a{
+                z-index: 5;
+                display: block;
+                padding: @inputPadding;
+                text-align: center;
+                border: 1px solid @mainLightColor;
+                border-radius: 5px;
+                background-color: @mainLightColor;
+                color: @mainDarkColor;               
+            }
+        }
+        .subMenu {
+            @main-menu-anim-time: 0.15s;
+            .main-menu-hide();
+            .animation(@main-menu-anim-time);            
+            > li{            
+                .main-menu-hide();   
+                margin-left: 5px;
+                list-style-type: none;
+                text-decoration: none;
+                width: 170px;  
+                .animation(@main-menu-anim-time);
+                > a{
+                    .main-menu-hide();
+                    display: block;
+                    text-align: center;
+                    background-color: @mainDarkColor;
+                    color: @mainLightColor;
+                    border-left: 1px solid @mainLightColor;
+                    border-right: 1px solid @mainLightColor;
+                    .animation(@main-menu-anim-time);
+                }
+            }
+            > li:last-child a{
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+                border-bottom: 1px solid @mainLightColor;
+            }
+            
+        
+        }        
+    }
+}
+
+.loggedUserPanelContainer{
+    float: right;
+    margin-right: 10px;
+    .form-group{
+        float: left;
+    }
+    .btn{
+        padding: @inputPadding;
+        height: @inputHeight;
+        .login-btn(@logoutButtonMargin);
+    }
+}
+
+.loginFormContainer{
+    float: right;
+    input{
+        padding: @inputPadding;
+        height: @inputHeight;
+        line-height: @inputHeight;
+    }
+    .btn{
+        .login-btn(@loginButtonMargin);
+    }
+    .form-group{
+        float: left;
+        margin-top: @loginInputsMargin;
+        margin-right: 10px;
+
+        label{
+            font-size: @smallFontSize;
+            line-height: @smallFontSize;
+        }
+    }
+}
+.mainIndexView{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}
+.mainIndexView.ng-enter, .mainIndexView.ng-leave{
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.mainIndexView.ng-enter {
+    opacity: 0;
+}
+.mainIndexView.ng-enter-active {
+    opacity: 1;
+}
+.mainIndexView.ng-leave {
+    opacity: 1;
+}
+.mainIndexView.ng-leave-active {
+    opacity: 0;
+}
+
+
+.contentContainer{
+    background-color: @mainBackgroundColor;
+    .documentsControlMenu{
+        ul{
+            margin-top: 3px;
+            margin-bottom: 0px;
+            padding: 0px 0px 0px 3px;
+        }
+        ul > li{
+            display: block;
+            float: left;
+            list-style-type: none;
+            text-decoration: none;
+            a{
+                display: block;
+                padding: 10px 15px;
+                background-color: @mainLightColor;
+                color: @mainDarkColor;
+                text-decoration: none;
+                &:hover{
+                    background-color: @mainDarkColor;
+                    color: @mainLightColor;
+                }
+            }
+            input{
+                height: 40px;
+                padding: 10px 15px;
+            }
+        }
+    }
+}
+
+.protocolMainContainer{
+    @documentTopMargin: 3px;
+    @documentBorderRadius: @documentTopMargin;
+    width: 80%;
+    float: left;
+    margin-top: @documentTopMargin;
+    margin-left: @documentTopMargin;
+    margin-right: @documentTopMargin;
+    .sideMargin(@documentTopMargin);
+    border: 1px solid black;
+    border-radius: @documentBorderRadius;
+    .sidePadding(0px);
+    .protocolHeading{
+        .sideMargin(0px);
+        div{
+            border-right: 1px solid black;
+            padding: 6px;
+        }
+        div:last-child{
+            border-right: none;
+        }
+    }
+    .protocolContentContainer{
+        .protocolItemContainer{
+            .sidePadding(0px);
+            .row{
+                .sideMargin(0px);
+                border-top: 1px solid black;
+                div{
+                    border-right: 1px solid black;
+                    padding: @inputPadding;            
+                }
+                div:last-child{
+                    border-right: none;
+                }
+            }
+        }
+    }
+}
+
+.ToolingsListContainer{
+    @toolingSideMargin: 0px;
+    @defaultPadding: 6px;
+    @defaultMargin: @defaultPadding;
+    width: 90%;
+    margin-left: @toolingSideMargin;
+    margin-right: @toolingSideMargin;    
+    .toolingsMenu{   
+        ul{
+            padding: 0px;
+            > li{
+                float: left;
+                list-style: none;
+                text-decoration: none;
+                margin-right: 5px;
+                a{
+                    display: block;
+                    padding: @defaultPadding;
+                    border: 2px solid @mainLightColor;
+                    border-radius: 5px;
+                    color: @mainDarkColor;
+                    text-decoration: none;
+                    font-weight: bold;
+                    &:hover{
+                        background-color: @mainLightColor;
+                    }
+                }
+                input{
+                    padding: @defaultPadding;
+                }
+            }
+        }
+        .searchTooling{            
+            border: 2px  solid @mainLightColor;    
+            border-radius: 5px;        
+            min-width: 400px;
+            input{
+                .animation(0.3s);
+                background-color: @mainLightColor;
+                border: none;
+                outline: none;
+                width: 368px;
+            }
+            i{
+                .animation(0.3s);
+                float: left;
+                background-color: @mainLightColor;
+                padding: 9px;
+            }
+            &:hover{
+                input, i{
+                    background-color: white;
+                }
+            }
+        }
+    }
+    .aditionalDataContainer{
+        border: 1px solid @mainDarkColor;
+        border-radius: 5px;
+        margin: 5px 0px;
+        padding: 5px;
+        input, label{
+            margin: 0px;
+        }
+    }
+    .toolingList{
+        overflow-y:scroll;
+        height: 600px;
+    }
+    .toolingsMainContainer{
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 2px;
+        .toolingHeading{
+            padding: @defaultMargin;
+            div:nth-child(even){
+                border-right: 1px solid black;
+            }
+            div:last-child{
+                border-right: none;
+            }
+            .toolNumber{
+                .elipsis();
+            }
+        }
+        .toolingContent{
+            .collapseContainer{
+                .row{
+                    margin-bottom: 5px;
+                }
+                textarea{
+                    display: block;
+                    width: 100%;
+                    height: 2em;
+                    resize: none;
+                    .animation(0.3s);
+                    &:hover{
+                        height: 6em;
+                    }
+                }
+                .repairListSimple{
+                    @tableSidePadding: 12px;
+                    font-size: smaller;  
+                    .repairTitle{
+                        display: block;
+                        font-size: @normalFontSize;
+                        margin: 8px 0px;
+                        font-weight: bolder;
+                    }
+                    .container-fluid{
+                        background-color: white;
+                        .sidePadding(0px);
+                    }
+                    .header{
+                        font-weight: bold;
+                        .sideMargin(0px);
+                        margin-bottom: 0px;
+                        border: 1px solid black;
+                        text-align: center;
+                        div{
+                            .sidePadding(@tableSidePadding);
+                        }
+                    }
+                    .content{
+                        .row{
+                            .sideMargin(0px);
+                            margin-bottom: 0px;
+                            border-bottom: 1px solid black;
+                            border-left: 1px solid black;
+                            border-right: 1px solid black;
+                            text-align: center;
+                            div{
+                                .sidePadding(@tableSidePadding);
+                            }
+                        }                        
+                        max-height: 200px;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+                    }
+                }
+            }
+            .obraz:hover{
+                width: 300px;
+                height: 300px;
+            }
+            .mass{
+                height: 6em;
+                background-color: white;
+                border: 1px solid gray;
+                overflow-y: hidden;
+                overflow-x: hidden;
+                padding: 3px;
+                &:hover{
+                    overflow-y: scroll;
+                }
+            }
+            padding: @defaultPadding;
+            border-top: 1px solid black;
+            .folderPath input{
+                width: 100%;
+                padding: 3px;
+            }
+        }
+    }
+    
+}
+
+.repairListMainContainer{
+    width: 96%;
+    @toolingSideMargin: 0px;
+    @defaultPadding: 6px;
+    @defaultMargin: @defaultPadding;
+    margin-left: 2%;
+    .repairListContent{
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 2px;
+        .repairHeading{
+            padding: @defaultMargin;
+        }
+        .repairContent{
+            .repairDetailContent{
+
+            }
+        }
+    }
+}
+
+.submitButton{
+    padding: 3px 6px;
+    color: black;
+    background-color: #a1a1a1;
+    /*font-weight: bold;*/
+}
+.inputField(){
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid gray;
+}
+.toolingModal{
+    @defaultPadding: 3px;
+    @defaultMargin: 3px;
+    @normalHeight: 2em;
+    @biggestHeight: 6em;
+    .modal-header{
+        background-color: @mainLightColor;
+        .modal-title{
+            font-weight: bold;
+        }        
+    }
+    .paddingMixin(){
+        padding: @defaultPadding;
+    }
+    input, select, textarea{
+        .inputField();
+        .animation(.2s);
+        .paddingMixin();
+        margin-bottom: @defaultMargin;
+        &:focus{
+            background-color: @mainLighterColor;
+            border-bottom: 0px solid gray;
+            border-radius: 8px;
+        }
+    }
+    .formFieldLabel{
+        font-weight: bold;
+        height: @normalHeight;
+        line-height: @normalHeight;
+        margin-bottom: @defaultMargin;
+        background-color: @mainDarkColor;
+        color: @mainLightColor;
+        border-radius: 8px;
+    }
+    #hashNo{
+        width: 15%;
+        height: @normalHeight;
+        .paddingMixin();
+    }
+    #toolNo{
+        width: 30%;
+        height: @normalHeight;
+        .paddingMixin();
+    }
+    #oldToolNo{
+        width: 30%;
+        height: @normalHeight;
+        .paddingMixin();
+    }
+    #numberoftoolings{
+        width: 15%;
+        height: @normalHeight;
+        .paddingMixin();
+    }
+    #location{
+        width: 30%;
+        height: @normalHeight;
+        .paddingMixin();
+    }
+    #path{
+        width: 100%;
+        height: @normalHeight;
+        .paddingMixin();
+    }
+    #attention{
+        .paddingMixin();
+        display: block;
+        width: 100%;
+        height: @biggestHeight;
+        resize: none;
+    }
+    #massList, #m20vList{
+        height: @biggestHeight;
+        border: 1px solid black;
+        border-radius: 8px;
+        .paddingMixin();
+        padding-left: 10px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        &:hover{
+            overflow-y: scroll;
+        }
+        div{
+            margin-left: 0px;
+        }
+    }
+}
+.simpleModal{
+    .modal-header{
+        background-color: @mainLightColor;
+        .modal-title{
+            font-weight: bold;
+        }        
+    }
+    .modal-body{
+        span{
+            display: block;
+            text-align:center; 
+            font-weight: bold;
+            font-size:large;
+        }
+        div{
+            text-align: center;
+        }
+        .yesButton, .noButton{
+            font-weight: bold;
+            font-size:medium;
+        }
+        .yesButton{
+            background-color: #ff3030;
+        }
+        .noButton{
+            background-color: #0ed127;
+        }
+        .simpleField{
+            .inputField();
+            .animation(.2s);
+            padding: 5px;
+            margin-bottom: 15px;
+        }        
+    }
+}
+
+.lightColor{
+    background-color: @mainLightColor;
+}
+.lighterColor{
+    background-color: @mainLighterColor;
+}
+
+.floatFix:after{
+    content: '';
+    display: block;
+    clear: both;
+}

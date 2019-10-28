@@ -1,0 +1,80 @@
+﻿<div>
+    <div class="mainMenuContainer floatFix">
+        <ng-include src="'layout/main.menu.html'"></ng-include>
+    </div>
+    <div style="float:right;">
+        Dane w schowku: <span>{{vm.clipboardToolingsData.hashNo}}</span>
+        <button ng-click="vm.clearClipboard()">Usuń</button>
+    </div>
+    <div class="ToolingsListContainer container-fluid" ng-cloak>
+        <div>
+            <div class="toolingsMenu floatFix">
+                <ul>
+                    <li><a href="" ng-click="vm.modalCall('add', -1)">Dodaj narzędzie</a></li>
+                    <li><a href="" ng-click="vm.showItems(vm.toolingsData)">Rozwiń wszystkie</a></li>
+                    <li><a href="" ng-click="vm.hideItems(vm.toolingsData)">Schowaj wszystkie</a></li>
+                    <li>
+                        <div class="searchTooling">
+                            <input type="text" ng-model="vm.toolingFilter" placeholder="Szukaj narzędzi" />
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </div>
+                    </li>
+                    <li><a href="#" ng-click="vm.clearFilter()">Wyczyść filtr</a></li>
+                </ul>
+            </div>
+            <div class="aditionalDataContainer container-fluid">
+                <div class="row">
+                    <div class="col-xs-2">
+                        Liczba rekordów: <b>{{vm.toolingsData.length}}</b>
+                    </div>
+                    <div class="col-xs-2">
+                        Aktualna strona: <b>{{vm.currentPage}}</b>
+                    </div>
+                    <div class="col-xs-3">
+                        Przefiltrowanych rekordów: <b>{{vm.totalItems}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        Liczba wyników na stronę:
+                        <label><input type="radio" ng-model="vm.itemPerPage" ng-value="10" />10</label>
+                        <label><input type="radio" ng-model="vm.itemPerPage" ng-value="20" />20</label>
+                        <label><input type="radio" ng-model="vm.itemPerPage" ng-value="30" />30</label>
+                    </div>
+                </div>
+                <!--<div class="row">
+                    <div class="col-xs-12">
+                        <ul uib-pagination ng-model="vm.currentPage" total-items="vm.totalItems"
+                            max-size="vm.itemsMaxSize" force-ellipses="true"></ul>
+                    </div>
+
+                </div>-->
+            </div>
+
+            <div ng-if="vm.dataLoaded">
+                <div class="toolingList" ng-if="vm.toolingsData.length > 0">
+                    <div class="toolingsMainContainer container-fluid"
+                         ng-repeat="item in vm.toolingsData | multiwords:vm.toolingFilter | pagination:vm.currentPage:vm.itemPerPage ">
+                         <!--ng-repeat="item in vm.toolingsData | filter:vm.toolingFilter | pagination:vm.currentPage:vm.itemPerPage ">-->
+                        
+                        <!--orderBy:'-hashNo' |-->
+                        <ng-include src="'layout/toolings/toolingsList.html'"></ng-include>
+                    </div>
+                </div>
+                <div ng-if="vm.toolingsData.length == 0">
+                    Brak danych do wyświetlenia
+                </div>
+            </div>
+            <div ng-if="!vm.dataLoaded">
+                Ładowanie danych
+                <i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>
+            </div>
+
+
+
+            <ul uib-pagination ng-model="vm.currentPage" total-items="vm.totalItems"
+                max-size="vm.itemsMaxSize" force-ellipses="true"></ul>
+        </div>
+
+    </div>
+</div>

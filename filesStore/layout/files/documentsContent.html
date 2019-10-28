@@ -1,0 +1,23 @@
+﻿<div class="protocolHeading row" ng-click="item.isCollapsed = !item.isCollapsed">
+    <div class="col-xs-1">{{($index + 1)}}.</div>
+    <div class="col-xs-7">{{item.caption}}</div>
+    <div class="col-xs-2">{{item.hyperlink}}</div>
+    <div class="col-xs-2">Status pliku</div>
+</div>
+<div class="protocolContentContainer" uib-collapse="item.isCollapsed">
+    <div class="protocolItemContainer container-fluid">
+        <div class="protocolHeading row">
+            <div class="col-xs-3">Odnośnik do pliku</div>
+            <div class="col-xs-3">Data dodania</div>
+            <div class="col-xs-2">Dodał</div>
+            <div class="col-xs-4">Administracja</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">{{item.hyperlink}}</div>
+            <div class="col-xs-3">{{item.addDate}}</div>
+            <div class="col-xs-2">{{item.uploaded}}</div>
+            <div class="col-xs-4">{{item.userRights}}</div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,38 @@
+﻿<form action="layout/files/upload.php" method="post" enctype="multipart/form-data">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-3">
+                    Opis zawartości pliku
+                </div>
+                <div class="col-xs-9">
+                    <input type="text" ng-model="vm.data.fileDescription" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    Ścieżka do pliku
+                </div>
+                <div class="col-xs-9">
+                    <input type="file" ng-model="vm.data.filePath" />
+                </div>
+            </div>
+            <input type="text" ng-model="vm.temp" />
+
+            Select image to upload:
+            <a href=""  >C:\07_PROGRAMY\02_GOTOWE PROGRAMY\XAMPP\htdocs\filesStore\filesStore\layout\files</a>
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload Image" name="submit" ng-click="vm.ok()">
+
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" type="button" ng-click="vm.ok()">OK</button>-->
+        <input type="submit" value="OK" name="submit" ng-click="vm.ok()">
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>

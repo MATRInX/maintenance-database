@@ -1,0 +1,13 @@
+﻿<div class="simpleModal">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Potwierdzenie usunięcia</h3>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+        <span>{{vm.textToDisplay}}</span><br />
+        <div>
+            <button class="btn yesButton" type="button" ng-click="vm.submitModal()">Tak</button>
+            <button class="btn noButton" type="button" ng-click="vm.closeModal()">Nie</button>        
+        </div>        
+    </div>
+</div>

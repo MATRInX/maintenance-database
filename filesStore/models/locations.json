@@ -1,0 +1,85 @@
+{
+  "locations":
+  [
+    {
+      "id": 1,
+      "name": "BA1"
+    },
+    {
+      "id": 2,
+      "name": "BA2"
+    },
+    {
+      "id": 3,
+      "name": "BA3"
+    },
+    {
+      "id": 4,
+      "name": "BA4"
+    },
+    {
+      "id": 5,
+      "name": "BA5"
+    },
+    {
+      "id": 6,
+      "name": "BA7"
+    },
+    {
+      "id": 7,
+      "name": "BA8"
+    },
+    {
+      "id": 8,
+      "name": "BU"
+    },
+    {
+      "id": 9,
+      "name": "CV"
+    },
+    {
+      "id": 10,
+      "name": "FA1"
+    },
+    {
+      "id": 11,
+      "name": "FA2"
+    },
+    {
+      "id": 12,
+      "name": "FA3"
+    },
+    {
+      "id": 13,
+      "name": "MAL"
+    },
+    {
+      "id": 14,
+      "name": "PAK"
+    },
+    {
+      "id": 15,
+      "name": "PP"
+    },
+    {
+      "id": 16,
+      "name": "PRE"
+    },
+    {
+      "id": 17,
+      "name": "PT"
+    },
+    {
+      "id": 18,
+      "name": "RA"
+    },
+    {
+      "id": 19,
+      "name": "RIDE"
+    },
+    {
+      "id": 20,
+      "name": "RT"
+    }
+  ]
+}
